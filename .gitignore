@@ -32,3 +32,4 @@ libft/*.a
 
 # Random
 auteur
+.build_number
