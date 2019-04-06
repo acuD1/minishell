@@ -45,6 +45,12 @@ HNAME = minishell.h
 LNAME = libft.a
 #TNAME =
 
+# Version
+
+BUILD_NUMBER_FILE = .build-number
+BUILD_DATE = $$(date +'%Y%m%d')
+BUILD_VERSION = $$(cat $(BUILD_NUMBER_FILE))
+
 # Dir/Files Path
 
 S_PATH = srcs/
@@ -118,16 +124,20 @@ make:
 
 all: libm $(BUILD) $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(BUILD_NUMBER_FILE)
 	@$(ECHO) $(GCFIL) $(NAME)
 	@$(CMPLO) $(NAME) $(OBJ) $(LIB)
 	@$(ECHO) $(GCC_O)
 	@$(ECHO) $(GCSUC)
+	@echo "\n$(G_C)>>>>>>>>>>>>\t$(RESET_C)$@ v.$(BUILD_VERSION)-$(BUILD_DATE) is ready !"
 
 $(OBJ): $(O_PATH)%.o: $(S_PATH)%.c $(HDR)
-	@$(CMPLC) $< -o $@
+	@$(CMPLC) -DBUILD=$(BUILD_VERSION) -DDATE=$(BUILD_DATE) $< -o $@
 	@$(ECHO) $(GCFIL) $@
 
+$(BUILD_NUMBER_FILE): $(OBJ)
+	@if ! test -f $(BUILD_NUMBER_FILE); then echo 0 > $(BUILD_NUMBER_FILE); fi
+	@echo $$(($$(cat $(BUILD_NUMBER_FILE)) + 1)) > $(BUILD_NUMBER_FILE)
 
 $(B_PATH):
 	@$(GCRUN)
