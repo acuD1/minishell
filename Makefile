@@ -49,6 +49,7 @@ LNAME = libft.a
 
 BUILD_NUMBER_FILE = .build-number
 BUILD_DATE = $$(date +'%Y%m%d')
+BUILD_BRANCH = $$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3)
 BUILD_VERSION = $$(cat $(BUILD_NUMBER_FILE))
 
 # Dir/Files Path
@@ -61,12 +62,15 @@ L_PATH = libft/
 
 DB_PATH = build/objs/db/
 CR_PATH = build/objs/core/
+MS_PATH = build/objs/misc/
 
-OBJP = "$(O_PATH){core,db}*.o"
+OBJP = "$(O_PATH){core,db,misc}*.o"
 
 # Files
 
 SRC += $(S_PATH)core/minishell.c
+
+SRC += $(S_PATH)misc/build.c
 
 # Objects and Headers
 
@@ -79,7 +83,7 @@ LIB = $(L_PATH)$(LNAME)
 C_GCC = gcc $(CFLAG)
 CMPLC = $(C_GCC) -c -I$(H_PATH)
 CMPLO = $(C_GCC) -o
-BUILD = $(B_PATH) $(O_PATH) $(DB_PATH) $(DP_PATH) $(CR_PATH)
+BUILD = $(B_PATH) $(O_PATH) $(DB_PATH) $(MS_PATH) $(CR_PATH)
 AR_RC = ar rcma
 RANLI = ranlib
 RM_RF = /bin/rm -rf
@@ -129,10 +133,10 @@ $(NAME): $(OBJ) $(BUILD_NUMBER_FILE)
 	@$(CMPLO) $(NAME) $(OBJ) $(LIB)
 	@$(ECHO) $(GCC_O)
 	@$(ECHO) $(GCSUC)
-	@echo "\n$(G_C)>>>>>>>>>>>>\t$(RESET_C)$@ v.$(BUILD_VERSION)-$(BUILD_DATE) is ready !"
+	@echo "\n$(G_C)>>>>>>>>>>>>\t$(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_DATE) is ready !"
 
 $(OBJ): $(O_PATH)%.o: $(S_PATH)%.c $(HDR)
-	@$(CMPLC) -DBUILD=$(BUILD_VERSION) -DDATE=$(BUILD_DATE) $< -o $@
+	@$(CMPLC) -DBUILD=$(BUILD_VERSION) -DDATE=$(BUILD_DATE) -DBRANCH=$(BUILD_BRANCH) $< -o $@
 	@$(ECHO) $(GCFIL) $@
 
 $(BUILD_NUMBER_FILE): $(OBJ)
@@ -156,6 +160,10 @@ $(DB_PATH):
 	@$(MKDIR) $(DB_PATH)
 	@$(ECHO) $(MKSHW) $(DB_PATH)
 
+$(MS_PATH):
+	@$(MKDIR) $(MS_PATH)
+	@$(ECHO) $(MKSHW) $(MS_PATH)
+
 norme:
 	@$(NORMR)
 	@$(NORME) $(SRC) $(H_PATH)$(HNAME)
@@ -177,6 +185,8 @@ fclean: libc
 	@$(ECHO) $(RMSHW) $(DB_PATH)
 	@$(RM_RF) $(O_PATH)
 	@$(ECHO) $(RMSHW) $(O_PATH)
+	@$(RM_RF) $(MS_PATH)
+	@$(ECHO) $(RMSHW) $(MS_PATH)
 	@$(RM_RF) $(B_PATH)
 	@$(ECHO) $(RMSHW) $(B_PATH)
 	@$(RM_RF) $(NAME)
