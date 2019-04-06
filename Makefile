@@ -133,7 +133,7 @@ $(NAME): $(OBJ) $(BUILD_NUMBER_FILE)
 	@$(CMPLO) $(NAME) $(OBJ) $(LIB)
 	@$(ECHO) $(GCC_O)
 	@$(ECHO) $(GCSUC)
-	@echo "\n$(G_C)>>>>>>>>>>>>\t$(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_DATE) is ready !"
+	@echo "\n$(G_C)>>>>>>>>>>>>\t$(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_DATE)_$(BUILD_BRANCH) is ready !"
 
 $(OBJ): $(O_PATH)%.o: $(S_PATH)%.c $(HDR)
 	@$(CMPLC) -DBUILD=$(BUILD_VERSION) -DDATE=$(BUILD_DATE) -DBRANCH=$(BUILD_BRANCH) $< -o $@
