@@ -64,6 +64,8 @@ DB_PATH = build/objs/db/
 CR_PATH = build/objs/core/
 MS_PATH = build/objs/misc/
 
+PATHS = $(B_PATH) $(O_PATH) $(DB_PATH) $(CR_PATH) $(MS_PATH)
+
 OBJP = "$(O_PATH){core,db,misc}*.o"
 
 # Files
@@ -83,7 +85,7 @@ LIB = $(L_PATH)$(LNAME)
 C_GCC = gcc $(CFLAG)
 CMPLC = $(C_GCC) -c -I$(H_PATH)
 CMPLO = $(C_GCC) -o
-BUILD = $(B_PATH) $(O_PATH) $(DB_PATH) $(MS_PATH) $(CR_PATH)
+BUILD = $(PATHS)
 AR_RC = ar rcma
 RANLI = ranlib
 RM_RF = /bin/rm -rf
@@ -144,26 +146,10 @@ $(BUILD_NUMBER_FILE): $(OBJ)
 	@if ! test -f $(BUILD_NUMBER_FILE); then echo 0 > $(BUILD_NUMBER_FILE); fi
 	@echo $$(($$(cat $(BUILD_NUMBER_FILE)) + 1)) > $(BUILD_NUMBER_FILE)
 
-$(B_PATH):
+$(PATHS):
 	@$(GCRUN)
-	@$(MKDIR) $(B_PATH)
-	@$(ECHO) $(MKSHW) $(B_PATH)
-
-$(O_PATH):
-	@$(MKDIR) $(O_PATH)
-	@$(ECHO) $(MKSHW) $(O_PATH)
-
-$(CR_PATH):
-	@$(MKDIR) $(CR_PATH)
-	@$(ECHO) $(MKSHW) $(CR_PATH)
-
-$(DB_PATH):
-	@$(MKDIR) $(DB_PATH)
-	@$(ECHO) $(MKSHW) $(DB_PATH)
-
-$(MS_PATH):
-	@$(MKDIR) $(MS_PATH)
-	@$(ECHO) $(MKSHW) $(MS_PATH)
+	@$(MKDIR) $(PATHS)
+	@$(foreach var,$(PATHS), $(ECHO) $(MKSHW) $(var);)
 
 norme:
 	@$(NORMR)
@@ -180,16 +166,11 @@ fclean: libc
 	@$(FCRUN)
 	@$(RM_RF) $(OBJ)
 	@$(ECHO) $(RMSHW) $(OBJP)
-	@$(RM_RF) $(CR_PATH)
-	@$(ECHO) $(RMSHW) $(CR_PATH)
-	@$(RM_RF) $(DB_PATH)
-	@$(ECHO) $(RMSHW) $(DB_PATH)
-	@$(RM_RF) $(O_PATH)
-	@$(ECHO) $(RMSHW) $(O_PATH)
-	@$(RM_RF) $(MS_PATH)
-	@$(ECHO) $(RMSHW) $(MS_PATH)
-	@$(RM_RF) $(B_PATH)
-	@$(ECHO) $(RMSHW) $(B_PATH)
+	@$(RM_RF) $(PATHS)
+	@for x in $(PATHS);\
+		do\
+			$(ECHO) $(RMSHW) $$x;\
+	done
 	@$(RM_RF) $(NAME)
 	@$(ECHO) $(RMSHW) $(NAME)
 	@$(ECHO) $(FCSUC)
@@ -202,14 +183,6 @@ libco:
 
 libc:
 	@make fclean -C $(L_PATH)
-
-#test:
-#	@$(TESTR)
-#	@git clone -q https://github.com/acuD1/$(TNAME).git $(B_PATH)test
-#	@$(ECHO) $(DLSHW) $(TNAME)
-#	@echo "$(Y_C)STILL IN BETA : Go to build/test and modify Makefile \
-#		manually fear each test_*.c and run make re (IF TEST AVAILABLE)$(RESET_C)"
-#	@$(ECHO) $(TESTD)
 
 re:
 	@$(MAKE) --no-print-directory fclean all
