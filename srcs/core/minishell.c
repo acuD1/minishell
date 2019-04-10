@@ -6,18 +6,37 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/06 15:46:28 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/07 13:35:21 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		main(int ac, char **av, char **environ)
+/*
+t_list	*set_environ(t_list *env, char **environ)
 {
-	(void)ac;
-	(void)av;
-	(void)environ;
+	t_db	db;
 
+	env = NULL;
+
+
+
+}*/
+
+int		main(void)
+{
+	/*
+	t_list	*env;
+
+	env = set_environ(env, environ);
+	//exec_prompt(m_sh);*/
+	char **test;
+	int		i;
+
+	i = 0;
+	test = environ;
+	while (test[i])
+		ft_mprintf(STDERR_FILENO, "%s\n", test[i++]);
 	build();
 	return (0);
 }

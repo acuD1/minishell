@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/06 16:35:11 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/07 13:22:56 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
 
-#include <stdio.h>
+extern char **environ;
 
 typedef struct		s_build
 {
@@ -23,6 +26,12 @@ typedef struct		s_build
 	unsigned long	date;
 	char			branch[8];
 }					t_build;
+
+typedef struct		s_db
+{
+	char			*symbol;
+	char			*path;
+}					t_db;
 
 /*
 **	Core
