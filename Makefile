@@ -72,8 +72,13 @@ OBJP = "$(O_PATH){core,db,misc}*.o"
 # Files
 
 SRC += $(S_PATH)core/minishell.c
+SRC += $(S_PATH)core/set_env.c
+SRC += $(S_PATH)core/free_list.c
 
 SRC += $(S_PATH)misc/build.c
+SRC += $(S_PATH)misc/log.c
+
+SRC += $(S_PATH)dev.c
 
 # Objects and Headers
 
@@ -105,10 +110,10 @@ EXSHW = "	- .	  Executing		-"
 GCRUN = echo ">\n$(G_C)---------->\tCompiling$(RESET_C)\n"
 CLRUN = echo ">\n$(R_C)---------->\tCleaning$(RESET_C)\n"
 FCRUN = echo ">\n$(R_C)---------->\tForce Cleaning$(RESET_C)\n"
-NORMR = echo ">\n$(Y_C)---------->\tNorminette$(RESET_C)\n"
+NORMR = echo ">\n$(Y_C)---------->\tNorminette$(RESET_C)"
 GCSUC = echo "$(G_C)==========>\tSUCCESS$(RESET_C)"
 CLSUC = echo "$(R_C)==========>\tDONE$(RESET_C)"
-NORMD = echo "$(G_C)==========>\t\DONE$(RESET_C)"
+NORMD = echo "$(G_C)==========>\tDONE$(RESET_C)"
 
 .PHONY: all norme clean fclean re test
 
@@ -152,7 +157,7 @@ $(PATHS):
 norme:
 	@$(NORMR)
 	@$(NORME) $(SRC) $(H_PATH)$(HNAME)
-	@$(ECHO) $(NORMD)
+	@$(NORMD)
 
 clean: libco
 	@$(CLRUN)

@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   free_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/11 14:59:19 by arsciand         ###   ########.fr       */
+/*   Created: 2019/04/11 14:08:04 by arsciand          #+#    #+#             */
+/*   Updated: 2019/04/11 14:26:04 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		main(int ac, char **av, char **environ)
+void	free_list(t_list *env)
 {
-	(void)ac;
-	(void)av;
-	t_list	*env;
+	t_list *tmp;
 
-	if (!(build(ac, av)))
-		return (0);
-	if (!(env = set_env(environ)))
-		return (0);
-	logger(env, environ);
-	free_list(env);
-	return (0);
+	while (env)
+	{
+		free(ENV_DB->symbol);
+		free(ENV_DB->value);
+		free(env->content);
+		tmp = env;
+		env = env->next;
+		free(tmp);
+	}
 }
