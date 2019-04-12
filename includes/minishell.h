@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/11 14:59:01 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 09:21:55 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define LOG_TTY "/dev/ttys003"
+# define LOG_TTY "/dev/ttys001"
 # define C_R "\x1b[31m"
 # define C_G "\x1b[32m"
 # define C_Y "\x1b[33m"

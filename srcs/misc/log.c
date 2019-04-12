@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:40:28 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/11 15:14:37 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 10:42:15 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	logger(t_list *env, char **environ)
 	timeinfo = localtime(&rawtime);
 	if ((ttyfd = open(LOG_TTY, O_WRONLY)) == -1)
 		ft_mprintf(1, "open /dev/tty");
-	ft_mprintf(ttyfd, "\nLOGGER FOR MINISHELL : %s\n", asctime(timeinfo));
+	ft_mprintf(ttyfd, "\n>\n%sLOGGING...%s\n", C_B, C_X);
 	print_env(environ, ttyfd);
 	print_env_db(env, ttyfd);
-	ft_mprintf(ttyfd, "\nLOGGER FOR MINISHELL : %s\n", asctime(timeinfo));
+	ft_mprintf(ttyfd, "LOGGER FOR MINISHELL : %s", asctime(timeinfo));
 }
 
 void	print_env(char **environ, int ttyfd)
@@ -36,6 +36,8 @@ void	print_env(char **environ, int ttyfd)
 
 	i = 0;
 	ft_putendl_fd("DEBUF FOR ENV ->", ttyfd);
+	if (!(environ[i]))
+		ft_mprintf(ttyfd, "%sEMPTY%s\n", C_R, C_X);
 	while (environ[i])
 	{
 		ft_mprintf(ttyfd ,"%sENV[%s%d%s]%s%s\n",
@@ -50,6 +52,8 @@ void	print_env_db(t_list *env, int ttyfd)
 
 	i = 0;
 	ft_putendl_fd("DEBUF FOR ENV_DB ->", ttyfd);
+	if (!(env))
+		ft_mprintf(ttyfd, "%sEMPTY%s\n", C_R, C_X);
 	while (env)
 	{
 		ft_mprintf(ttyfd, "%sENV_DB[%s%d%s]\n%sS = |%s|\n%sV = |%s|%s\n",
