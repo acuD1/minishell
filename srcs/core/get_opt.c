@@ -6,13 +6,13 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 15:46:59 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 15:05:20 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 15:46:15 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		usage(char *av, int i, t_opt *opt)
+static int	usage(char *av, int i, t_opt *opt)
 {
 	while (av[i])
 	{
@@ -29,7 +29,7 @@ static int		usage(char *av, int i, t_opt *opt)
 	return (0);
 }
 
-static int		fill_opt(t_opt *opt, char av)
+static int	fill_opt(t_opt *opt, char av)
 {
 	if (!(ft_strchr("-hvd", av)))
 		return (0);
@@ -48,7 +48,7 @@ static int		fill_opt(t_opt *opt, char av)
 	return (1);
 }
 
-void	get_logger(char **av, t_opt *opt, int i)
+static void	get_logger(char **av, t_opt *opt, int i)
 {
 	if (!(av[i]))
 	{
@@ -58,7 +58,7 @@ void	get_logger(char **av, t_opt *opt, int i)
 	opt->logger = ft_strdup(av[i]);
 }
 
-int		get_opt(int ac, char **av, t_opt *opt)
+int			get_opt(int ac, char **av, t_opt *opt)
 {
 	int		i;
 	int		j;

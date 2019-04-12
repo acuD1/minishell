@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:40:28 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 14:54:44 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 15:37:14 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ static void	print_env_db(t_list *env, int fd)
 static void	print_opt(t_opt *opt, t_build *b)
 {
 	if (opt->h)
-		ft_putendl("Minishell by arsciand\nto run : ./minishell");
+		ft_putendl_fd("Minishell by arsciand\nto run : ./minishell",
+			STDOUT_FILENO);
 	if (opt->v)
-		ft_mprintf(1, "minishel v.%d_%d_%d\n",
+		ft_mprintf(STDOUT_FILENO, "minishel v.%d_%d_%d\n",
 			b->version, b->number, b->date);
 }
 
