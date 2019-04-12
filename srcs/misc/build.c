@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 15:46:59 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 09:29:04 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 10:57:29 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int		build(int ac, char **av)
 
 	i = 0;
 	ft_bzero(&build, sizeof(t_build));
-	build.version = BUILD + 1;
+	build.version = BUILDV;
+	build.number = BUILDN + 1;
 	build.date = DATE;
 	ft_strcpy(build.branch, STR(BRANCH));
 	while (++i < ac)
@@ -52,8 +53,8 @@ int		build(int ac, char **av)
 		}
 		else if (av[i][0] == '-' && av[i][1] == 'v')
 		{
-			ft_mprintf(1, "minishell v.%d_%d_%s\n",
-				build.version, build.date, build.branch);
+			ft_mprintf(1, "minishell v.%d_%d_%d_%s\n",
+				build.version, build.number, build.date, build.branch);
 			return (0);
 		}
 	}

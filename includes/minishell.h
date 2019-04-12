@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 09:21:55 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 10:52:12 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 typedef struct		s_build
 {
 	unsigned long	version;
+	unsigned long	number;
 	unsigned long	date;
 	char			branch[8];
 }					t_build;

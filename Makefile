@@ -51,7 +51,8 @@ LNAME = libft.a
 BUILD_NUMBER_FILE = .build-number
 BUILD_DATE = $$(date +'%Y%m%d')
 BUILD_BRANCH = $$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3)
-BUILD_VERSION = $$(cat $(BUILD_NUMBER_FILE))
+BUILD_VERSION = $$(cat .version)
+BUILD_NUMBER = $$(cat $(BUILD_NUMBER_FILE))
 
 # Dir/Files Path
 
@@ -138,11 +139,11 @@ $(NAME): $(OBJ) $(BUILD_NUMBER_FILE)
 	@$(ECHO) $(GCFIL) $(NAME)
 	@$(CMPLO) $(NAME) $(OBJ) $(LIB)
 	@$(GCSUC)
-	@echo "\n$(G_C)>>>>>>>>>>>>\t$(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_DATE)_$(BUILD_BRANCH) is ready !"
-	@cp $(NAME) $(B_PATH)$(NAME)_$(BUILD_VERSION)_$(BUILD_DATE)_$(BUILD_BRANCH)
+	@echo "\n$(G_C)>>>>>>>>>>>>\t$(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE)_$(BUILD_BRANCH) is ready !"
+	@cp $(NAME) $(B_PATH)$(NAME)_$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE)_$(BUILD_BRANCH)
 
 $(OBJ): $(O_PATH)%.o: $(S_PATH)%.c $(HDR)
-	@$(CMPLC) -DBUILD=$(BUILD_VERSION) -DDATE=$(BUILD_DATE) -DBRANCH=$(BUILD_BRANCH) $< -o $@
+	@$(CMPLC) -DBUILDV=$(BUILD_VERSION) -DBUILDN=$(BUILD_NUMBER) -DDATE=$(BUILD_DATE) -DBRANCH=$(BUILD_BRANCH) $< -o $@
 	@$(ECHO) $(GCFIL) $<
 
 $(BUILD_NUMBER_FILE): $(OBJ)
