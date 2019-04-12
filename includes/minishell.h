@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 15:04:16 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 17:00:35 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void				free_list(t_list *env);
 **	Misc
 */
 
+void				init_build(t_build *build);
 void				helper(t_list *env, t_opt *opt);
 int					exit_status(t_opt *opt, const char *func, char *file,
 						int line);
