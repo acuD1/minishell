@@ -6,32 +6,27 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 10:35:46 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 15:01:16 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
 int		main(int ac, char **av, char **environ)
 {
-	(void)ac;
-	(void)av;
+	t_opt	opt;
 	t_list	*env;
 
-	if (!(build(ac, av)))
-	{
-		printf("?\n");
-		return (EXIT_FAILURE);
-	}
+	ft_bzero(&opt, sizeof(t_opt));
+	if (!(get_opt(ac, av, &opt)))
+		return (exit_status(&opt, FT, FL, LN));
 	if (!(env = set_env(environ)))
 	{
-		logger(env, environ);
-		return (0);
+		opt.fail = 1;
+		helper(env, &opt);
+		return (exit_status(&opt, FT, FL, LN));
 	}
-	//exec_prompt(env);
-	logger(env, environ);
+	helper(env, &opt);
 	free_list(env);
-	return (EXIT_SUCCESS);
+	return (exit_status(&opt, FT, FL, LN));
 }

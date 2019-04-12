@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/11 14:25:48 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 11:44:35 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_db	*fetch_db(t_db *db, char *environ)
 	return (db);
 }
 
-
 t_list	*set_env(char **environ)
 {
 	t_db	db;
@@ -41,7 +40,7 @@ t_list	*set_env(char **environ)
 	{
 		ft_lstpushback(&env,
 			ft_lstnew(fetch_db(&db, environ[i]), sizeof(t_db)));
-			i++;
+		i++;
 	}
 	return (env);
 }

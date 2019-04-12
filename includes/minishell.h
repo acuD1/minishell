@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 10:52:12 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/12 15:04:16 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define LOG_TTY "/dev/ttys001"
+# define FT __func__
+# define FL __FILE__
+# define LN __LINE__
+# define DEFAULT_TTY "/dev/ttys001"
 # define C_R "\x1b[31m"
 # define C_G "\x1b[32m"
 # define C_Y "\x1b[33m"
@@ -29,12 +32,22 @@
 # define C_X "\x1b[0m"
 # define ENV_DB ((t_db*)(env->content))
 
+typedef struct		s_opt
+{
+	char			*logger;
+	int				v;
+	int				h;
+	int				d;
+	int				fail;
+	int				stop;
+	int				usage;
+}					t_opt;
+
 typedef struct		s_build
 {
 	unsigned long	version;
 	unsigned long	number;
 	unsigned long	date;
-	char			branch[8];
 }					t_build;
 
 typedef struct		s_db
@@ -48,20 +61,19 @@ typedef struct		s_db
 */
 
 t_list				*set_env(char **environ);
+int					get_opt(int ac, char **av, t_opt *opt);
 void				free_list(t_list *env);
 
 /*
 **	Misc
 */
 
-int					build(int ac, char **av);
-void				logger(t_list *env, char **environ);
-void				print_env(char **environ, int ttyfd);
-void				print_env_db(t_list *env, int ttyfd);
+void				helper(t_list *env, t_opt *opt);
+int					exit_status(t_opt *opt, const char *func, char *file,
+						int line);
 
 /*
 **	Dev
 */
-
 
 #endif

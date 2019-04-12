@@ -75,9 +75,10 @@ OBJP = "$(O_PATH){core,db,misc}*.o"
 SRC += $(S_PATH)core/minishell.c
 SRC += $(S_PATH)core/set_env.c
 SRC += $(S_PATH)core/free_list.c
+SRC += $(S_PATH)core/get_opt.c
 
-SRC += $(S_PATH)misc/build.c
-SRC += $(S_PATH)misc/log.c
+SRC += $(S_PATH)misc/helper.c
+SRC += $(S_PATH)misc/exit_status.c
 
 SRC += $(S_PATH)dev.c
 
@@ -139,11 +140,12 @@ $(NAME): $(OBJ) $(BUILD_NUMBER_FILE)
 	@$(ECHO) $(GCFIL) $(NAME)
 	@$(CMPLO) $(NAME) $(OBJ) $(LIB)
 	@$(GCSUC)
-	@echo "\n$(G_C)>>>>>>>>>>>>\t$(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE)_$(BUILD_BRANCH) is ready !"
-	@cp $(NAME) $(B_PATH)$(NAME)_$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE)_$(BUILD_BRANCH)
+	@echo "---\nCFLAG\t- >$(B_C)\t$(CFLAG)$(RESET_C)\n---"
+	@echo "\n$(G_C)[$(BUILD_BRANCH)]\t=>\t$(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE) is ready !"
+	@cp $(NAME) $(B_PATH)$(NAME)_$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE)
 
 $(OBJ): $(O_PATH)%.o: $(S_PATH)%.c $(HDR)
-	@$(CMPLC) -DBUILDV=$(BUILD_VERSION) -DBUILDN=$(BUILD_NUMBER) -DDATE=$(BUILD_DATE) -DBRANCH=$(BUILD_BRANCH) $< -o $@
+	@$(CMPLC) -DBUILDV=$(BUILD_VERSION) -DBUILDN=$(BUILD_NUMBER) -DDATE=$(BUILD_DATE) $< -o $@
 	@$(ECHO) $(GCFIL) $<
 
 $(BUILD_NUMBER_FILE): $(OBJ)
