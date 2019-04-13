@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 15:47:46 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/13 10:18:49 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_db	*fetch_db(t_db *db, char *environ)
 
 	len = ft_strclen(environ, '=');
 	db->symbol = ft_strsub(environ, 0, len);
-	db->value = ft_strsub(environ, len + 1, ft_strlen(environ));
+	db->value = ft_strsub(environ, len + 1, ft_strlen(environ) + 1);
 	return (db);
 }
 

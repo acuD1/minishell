@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 17:00:35 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/13 09:30:46 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define FT __func__
 # define FL __FILE__
 # define LN __LINE__
-# define DEFAULT_TTY "/dev/ttys001"
+# define DEFAULT_TTY "/dev/ttys002"
 # define C_R "\x1b[31m"
 # define C_G "\x1b[32m"
 # define C_Y "\x1b[33m"
@@ -69,12 +69,11 @@ void				free_list(t_list *env);
 */
 
 void				init_build(t_build *build);
-void				helper(t_list *env, t_opt *opt);
+void				helper(t_list *env, t_opt *opt, t_build *build, char *line);
 int					exit_status(t_opt *opt, const char *func, char *file,
 						int line);
 
 /*
 **	Dev
 */
-
 #endif

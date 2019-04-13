@@ -102,18 +102,9 @@ RM_RF = /bin/rm -rf
 MKDIR = mkdir -p
 NORME = norminette
 SLEEP = sleep 0.01
-GCFIL = "	- >	  Compiling		-"
-GCLAR = "	- }	  Archiving		-"
-GCLIN = "	- =	  Linking		-"
-GCIND = "	- *	  Indexing		-"
-RMSHW = "	- -	  Removing		-"
-MKSHW = "	- +	  Creating		-"
-DLSHW = "	- ~	  Downloading		-"
-EXSHW = "	- .	  Executing		-"
-GCRUN = echo ">\n$(G_C)---------->\tCompiling$(RESET_C)\n"
-CLRUN = echo ">\n$(R_C)---------->\tCleaning$(RESET_C)\n"
-FCRUN = echo ">\n$(R_C)---------->\tForce Cleaning$(RESET_C)\n"
-NORMR = echo ">\n$(Y_C)---------->\tNorminette$(RESET_C)"
+GCFIL = "	- >	Compiling		-"
+RMSHW = "	- -	Removing		-"
+MKSHW = "	- +	Creating		-"
 GCSUC = echo "$(G_C)==========>\tSUCCESS$(RESET_C)"
 CLSUC = echo "$(R_C)==========>\tDONE$(RESET_C)"
 NORMD = echo "$(G_C)==========>\tDONE$(RESET_C)"
@@ -141,8 +132,8 @@ $(NAME): $(OBJ) $(BUILD_NUMBER_FILE)
 	@$(ECHO) $(GCFIL) $(NAME)
 	@$(CMPLO) $(NAME) $(OBJ) $(LIB)
 	@$(GCSUC)
-	@echo "---\nCFLAG\t- >$(B_C)\t$(CFLAG)$(RESET_C)\n---"
-	@echo "\n$(G_C)[$(BUILD_BRANCH)]\t=>\t$(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE) is ready !"
+	@echo "---\nCFLAG\t- =$(B_C)\t$(CFLAG)$(RESET_C)\n---"
+	@echo "\n$(G_C)[$(BUILD_BRANCH)] $(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE) is ready !"
 	@cp $(NAME) $(B_PATH)$(NAME)_$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE)
 
 $(OBJ): $(O_PATH)%.o: $(S_PATH)%.c $(HDR)
@@ -154,7 +145,6 @@ $(BUILD_NUMBER_FILE): $(OBJ)
 	@echo $$(($$(cat $(BUILD_NUMBER_FILE)) + 1)) > $(BUILD_NUMBER_FILE)
 
 $(PATHS):
-	@$(GCRUN)
 	@$(MKDIR) $(PATHS)
 	@$(foreach var,$(PATHS), $(ECHO) $(MKSHW) $(var);)
 
@@ -163,13 +153,14 @@ norme:
 	@$(NORME) $(SRC) $(H_PATH)$(HNAME)
 	@$(NORMD)
 
+test:
+	@$(GCRUN)
+
 clean: libco
-	@$(CLRUN)
 	@for i in $(OBJ); do $(RM_RF) $$i; $(ECHO) $(RMSHW) $$i; done
 	@$(CLSUC)
 
 fclean: libc
-	@$(FCRUN)
 	@for i in $(OBJ); do $(RM_RF) $$i; $(ECHO) $(RMSHW) $$i; done
 	@for i in $(PATHS); do $(RM_RF) $$i; $(ECHO) $(RMSHW) $$i; done
 	@$(RM_RF) $(NAME)
@@ -178,6 +169,7 @@ fclean: libc
 
 libm:
 	@make -C $(L_PATH)
+	@printf "\n"
 
 libco:
 	@make clean -C $(L_PATH)
@@ -186,6 +178,7 @@ libc:
 	@make fclean -C $(L_PATH)
 
 re:
+	$(MSG)
 	@$(MAKE) --no-print-directory fclean all
 
 endif
