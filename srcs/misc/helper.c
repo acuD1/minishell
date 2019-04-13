@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:40:28 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 14:54:44 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/13 09:32:49 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,40 +30,47 @@ static void	print_env_db(t_list *env, int fd)
 	}
 }
 
-static void	print_opt(t_opt *opt, t_build *b)
+static void	print_opt(t_opt *opt, t_build *build)
 {
 	if (opt->h)
-		ft_putendl("Minishell by arsciand\nto run : ./minishell");
+		ft_putendl_fd("Minishell by arsciand\nto run : ./minishell",
+			STDOUT_FILENO);
 	if (opt->v)
-		ft_mprintf(1, "minishel v.%d_%d_%d\n",
-			b->version, b->number, b->date);
+		ft_mprintf(STDOUT_FILENO, "minishel v.%d_%d_%d\n",
+			build->version, build->number, build->date);
 }
 
-void		helper(t_list *env, t_opt *opt)
+static int	open_logger(t_opt *opt)
 {
-	struct tm	*timeinfo;
-	t_build		b;
-	time_t		rawtime;
-	int			fd;
+	int		fd;
 
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-	ft_bzero(&b, sizeof(t_build));
-	b.version = BUILDV;
-	b.number = BUILDN + 1;
-	b.date = DATE;
 	if ((fd = open(opt->logger,
 		O_WRONLY | O_APPEND | O_CREAT | O_NOFOLLOW, 0600)) == -1)
 	{
 		opt->stop = 1;
 		ft_mprintf(1, "%sFailed open %s for debug !%s\n",
 			C_R, opt->logger, C_X);
+		return (0);
 	}
-	print_opt(opt, &b);
+	return (fd);
+}
+
+void		helper(t_list *env, t_opt *opt, t_build *build, char *line)
+{
+	struct tm	*timeinfo;
+	time_t		rawtime;
+	int			fd;
+
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	if (!(fd = open_logger(opt)))
+		return ;
+	print_opt(opt, build);
 	if (!opt->d)
 		return ;
 	ft_mprintf(fd, "\n\n>\n%sLOGGING...%s\n", C_B, C_X);
 	print_env_db(env, fd);
+	ft_mprintf(fd, "\nline = |%s|\n\n", line);
 	ft_mprintf(fd, "LOGGER FOR MINISHELL V.%d_%d : %s",
-		b.version, b.number, asctime(timeinfo));
+		build->version, build->number, asctime(timeinfo));
 }
