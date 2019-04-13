@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 11:59:38 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/12 15:36:23 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/13 14:56:46 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int		exit_status(t_opt *opt, const char *func, char *file, int line)
 	}
 	if (opt->d)
 		ft_mprintf(fd, "\n%sEXIT_SUCCESS%s", C_G, C_X);
+	ft_mprintf(STDOUT_FILENO, "\n\n%sExiting...\nBye%s\n", C_Y, C_X);
 	return (EXIT_SUCCESS);
 }
