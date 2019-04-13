@@ -76,10 +76,12 @@ SRC += $(S_PATH)core/minishell.c
 SRC += $(S_PATH)core/set_env.c
 SRC += $(S_PATH)core/free_list.c
 SRC += $(S_PATH)core/get_opt.c
+SRC += $(S_PATH)core/signal_handler.c
 
 SRC += $(S_PATH)misc/build.c
 SRC += $(S_PATH)misc/helper.c
 SRC += $(S_PATH)misc/exit_status.c
+SRC += $(S_PATH)misc/output.c
 
 SRC += $(S_PATH)dev.c
 

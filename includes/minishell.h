@@ -6,7 +6,11 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/04/13 12:08:58 by arsciand         ###   ########.fr       */
+=======
+/*   Updated: 2019/04/13 14:25:44 by arsciand         ###   ########.fr       */
+>>>>>>> dev
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +26,7 @@
 # define FT __func__
 # define FL __FILE__
 # define LN __LINE__
-# define DEFAULT_TTY "/dev/ttys002"
+# define DEFAULT_TTY "/dev/ttys005"
 # define C_R "\x1b[31m"
 # define C_G "\x1b[32m"
 # define C_Y "\x1b[33m"
@@ -63,6 +67,7 @@ typedef struct		s_db
 t_list				*set_env(char **environ);
 int					get_opt(int ac, char **av, t_opt *opt);
 void				free_list(t_list *env);
+void				signal_handler(void);
 
 /*
 **	Misc
@@ -72,6 +77,8 @@ void				init_build(t_build *build);
 void				helper(t_list *env, t_opt *opt, t_build *build, char *line);
 int					exit_status(t_opt *opt, const char *func, char *file,
 						int line);
+void				credit(t_build *build);
+void				init_prompt(void);
 
 /*
 **	Dev
