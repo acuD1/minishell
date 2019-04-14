@@ -83,7 +83,7 @@ SRC += $(S_PATH)misc/helper.c
 SRC += $(S_PATH)misc/exit_status.c
 SRC += $(S_PATH)misc/output.c
 
-SRC += $(S_PATH)dev.c
+#SRC += $(S_PATH)dev.c
 
 # Objects and Headers
 

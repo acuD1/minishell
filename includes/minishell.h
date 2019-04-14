@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/13 14:25:44 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/14 13:41:46 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define FT __func__
-# define FL __FILE__
-# define LN __LINE__
-# define DEFAULT_TTY "/dev/ttys005"
+# define DEFAULT_TTY "/dev/ttys001"
+# define DEFAULT_SHLVL "SHLVL=1"
+# define DEFAULT_ENV "_=/usr/bin/env"
+# define DEFAULT_PATH "PATH=/usr/bin"
 # define C_R "\x1b[31m"
 # define C_G "\x1b[32m"
 # define C_Y "\x1b[33m"
@@ -75,8 +75,9 @@ int					exit_status(t_opt *opt, const char *func, char *file,
 						int line);
 void				credit(t_build *build);
 void				init_prompt(void);
-
+int					open_logger(t_opt *opt);
 /*
 **	Dev
 */
+void	restart_prompt(int s);
 #endif

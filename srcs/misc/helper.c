@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:40:28 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/13 09:32:49 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/14 12:56:04 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	print_opt(t_opt *opt, t_build *build)
 			build->version, build->number, build->date);
 }
 
-static int	open_logger(t_opt *opt)
+int		open_logger(t_opt *opt)
 {
 	int		fd;
 

@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/13 16:16:21 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/04/14 13:17:47 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_db	*fetch_db(t_db *db, char *environ)
 
 t_list	*fetch_default(t_list *env, t_db *db, int i)
 {
-	char *default_environ[4];
+	char *default_environ[5];
 	char pwd[256];
 
 	if (getcwd(pwd, sizeof(pwd)) != NULL)
@@ -32,9 +32,10 @@ t_list	*fetch_default(t_list *env, t_db *db, int i)
 									ft_strdup(pwd), 3);
 	else
 		return (NULL);
-	default_environ[1] = "SHLVL=1";
-	default_environ[2] = "_=/usr/bin/env";
-	default_environ[3] = NULL;
+	default_environ[1] = DEFAULT_SHLVL;
+	default_environ[2] = DEFAULT_ENV;
+	default_environ[3] = DEFAULT_PATH;
+	default_environ[4] = NULL;
 	while(default_environ[i])
 	{
 		ft_lstpushback(&env,
