@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/14 13:48:24 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/03 08:26:11 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	exec_prompt(t_list *env, t_opt *opt, t_build *build)
 		if (!(status = get_next_line(STDIN_FILENO, &line)))
 			break ;
 		tokens = token_parser(line);
-		exec_process(env, tokens);
+		//exec_process(env, tokens);
 		helper(env, opt, build, line);
 		token_helper(tokens, opt);
 		free_tokens(tokens);
