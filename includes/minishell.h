@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 08:22:13 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/03 13:05:26 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,26 @@
 # define C_X "\x1b[0m"
 # define ENV_DB ((t_db*)(env->content))
 
-typedef struct		s_opt
-{
-	char			*logger;
-	int				v;
-	int				h;
-	int				d;
-	int				fail;
-	int				stop;
-	int				usage;
-}					t_opt;
-
 typedef struct		s_build
 {
 	unsigned long	version;
-	unsigned long	number;
+	unsigned long	patch;
 	unsigned long	date;
 }					t_build;
+
+typedef struct		s_opt
+{
+	int				v;
+	int				h;
+	int				d;
+}					t_opt;
+
+typedef struct		s_flags
+{
+	int				fail;
+	int				stop;
+	int				usage;
+}					t_flags;
 
 typedef struct		s_db
 {
@@ -56,28 +59,40 @@ typedef struct		s_db
 	char			*value;
 }					t_db;
 
+typedef struct		s_core
+{
+	t_build			build;
+	t_opt			opt;
+	t_flags			flag;
+	t_list			*env;
+	char			*logger;
+}					t_core;
+
 /*
 **	Core
 */
 
 t_list				*set_env(char **environ);
-int					get_opt(int ac, char **av, t_opt *opt);
-void				free_list(t_list *env);
+int					get_opt(int ac, char **av, t_core *shell);
 void				signal_handler(void);
+void				free_list(t_list *env);
+void				free_tokens(char **tokens);
 
 /*
 **	Misc
 */
 
-void				init_build(t_build *build);
-void				helper(t_list *env, t_opt *opt, t_build *build, char *line);
-int					exit_status(t_opt *opt, const char *func, char *file,
-						int line);
-void				credit(t_build *build);
+void				helper(t_core *shell, char *line, char **tokens);
+int					exit_status(t_core *shell);
+int					open_logger(t_core *shell);
+void				credit(t_core *shell);
 void				init_prompt(void);
-int					open_logger(t_opt *opt);
+
 /*
 **	Dev
 */
-void	restart_prompt(int s);
+
+void				restart_prompt(int s);
+void				exec_prompt(t_core *shell);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:40:28 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/14 12:56:04 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/03 13:04:56 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,47 +30,57 @@ static void	print_env_db(t_list *env, int fd)
 	}
 }
 
-static void	print_opt(t_opt *opt, t_build *build)
+static void	print_opt(t_core *shell)
 {
-	if (opt->h)
+	if (shell->opt.h)
 		ft_putendl_fd("Minishell by arsciand\nto run : ./minishell",
 			STDOUT_FILENO);
-	if (opt->v)
+	if (shell->opt.v)
 		ft_mprintf(STDOUT_FILENO, "minishel v.%d_%d_%d\n",
-			build->version, build->number, build->date);
+			shell->build.version, shell->build.patch, shell->build.date);
 }
 
-int		open_logger(t_opt *opt)
+int			open_logger(t_core *shell)
 {
 	int		fd;
 
-	if ((fd = open(opt->logger,
+	if ((fd = open(shell->logger,
 		O_WRONLY | O_APPEND | O_CREAT | O_NOFOLLOW, 0600)) == -1)
 	{
-		opt->stop = 1;
+		shell->flag.stop = 1;
 		ft_mprintf(1, "%sFailed open %s for debug !%s\n",
-			C_R, opt->logger, C_X);
+			C_R, shell->logger, C_X);
 		return (0);
 	}
 	return (fd);
 }
 
-void		helper(t_list *env, t_opt *opt, t_build *build, char *line)
+void		helper(t_core *shell, char *line, char **tokens)
 {
 	struct tm	*timeinfo;
 	time_t		rawtime;
 	int			fd;
+	int			i;
 
+	i = 0;
 	time(&rawtime);
 	timeinfo = localtime(&rawtime);
-	if (!(fd = open_logger(opt)))
+	if (!(fd = open_logger(shell)))
 		return ;
-	print_opt(opt, build);
-	if (!opt->d)
+	print_opt(shell);
+	if (shell->opt.d == 0)
 		return ;
 	ft_mprintf(fd, "\n\n>\n%sLOGGING...%s\n", C_B, C_X);
-	print_env_db(env, fd);
+	print_env_db(shell->env, fd);
 	ft_mprintf(fd, "\nline = |%s|\n\n", line);
-	ft_mprintf(fd, "LOGGER FOR MINISHELL V.%d_%d : %s",
-		build->version, build->number, asctime(timeinfo));
+	if (tokens)
+	{
+		while (tokens[i])
+		{
+			ft_mprintf(fd, "token[%d] = |%s|\n", i, tokens[i]);
+			i++;
+		}
+	}
+	ft_mprintf(fd, "\nLOGGER FOR MINISHELL V.%d_%d : %s",
+		shell->build.version, shell->build.patch, asctime(timeinfo));
 }

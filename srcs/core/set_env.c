@@ -6,13 +6,13 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/14 13:17:47 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/03 11:38:47 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_db	*fetch_db(t_db *db, char *environ)
+static t_db		*fetch_db(t_db *db, char *environ)
 {
 	size_t len;
 
@@ -22,7 +22,7 @@ t_db	*fetch_db(t_db *db, char *environ)
 	return (db);
 }
 
-t_list	*fetch_default(t_list *env, t_db *db, int i)
+static t_list	*fetch_default(t_list *env, t_db *db, int i)
 {
 	char *default_environ[5];
 	char pwd[256];
@@ -46,7 +46,7 @@ t_list	*fetch_default(t_list *env, t_db *db, int i)
 	return (env);
 }
 
-t_list	*set_env(char **environ)
+t_list			*set_env(char **environ)
 {
 	t_db	db;
 	t_list	*env;
