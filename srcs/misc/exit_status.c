@@ -6,20 +6,20 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 11:59:38 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 13:02:50 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/03 14:03:50 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		exit_status(t_core *shell)
+int		exit_status(t_core *shell, int status)
 {
 	int		fd;
 
 	if (!shell->flag.usage)
 		fd = open_logger(shell);
 	free(shell->logger);
-	if (shell->flag.fail)
+	if (status)
 	{
 		if (shell->opt.d)
 			ft_mprintf(fd, "\n%sEXIT_FAILURE%s", C_R, C_X);

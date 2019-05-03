@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 13:05:26 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/03 14:45:59 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <signal.h>
 
 # define DEFAULT_TTY "/dev/ttys002"
 # define DEFAULT_SHLVL "SHLVL=1"
@@ -48,7 +50,6 @@ typedef struct		s_opt
 
 typedef struct		s_flags
 {
-	int				fail;
 	int				stop;
 	int				usage;
 }					t_flags;
@@ -66,6 +67,8 @@ typedef struct		s_core
 	t_flags			flag;
 	t_list			*env;
 	char			*logger;
+	int				minishell_pid;
+	int				child_pid;
 }					t_core;
 
 /*
@@ -83,10 +86,11 @@ void				free_tokens(char **tokens);
 */
 
 void				helper(t_core *shell, char *line, char **tokens);
-int					exit_status(t_core *shell);
+int					exit_status(t_core *shell, int status);
 int					open_logger(t_core *shell);
 void				credit(t_core *shell);
 void				init_prompt(void);
+void				print_opt(t_core *shell);
 
 /*
 **	Dev

@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 15:46:59 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 13:02:24 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/03 14:44:21 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	usage(char *av, int i, t_core *shell)
 		}
 		i++;
 	}
-	shell->flag.fail = 1;
 	shell->flag.usage = 1;
 	return (0);
 }
@@ -35,8 +34,8 @@ static int	fill_opt(t_core *shell, char av)
 		return (0);
 	if (av == 'v')
 	{
-		shell->opt.v = 1;
 		shell->opt.h = 0;
+		shell->opt.v = 1;
 	}
 	if (av == 'h')
 	{
