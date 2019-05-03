@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/13 16:05:09 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/03 13:01:32 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,34 @@
 #include <errno.h>
 #include <signal.h>
 
-void	exec_prompt(t_list *env, t_opt *opt, t_build *build)
+static void	init_shell(t_core *shell)
 {
-	char	*line;
-	int		status;
-
-	status = 1;
-	credit(build);
-	while (status)
-	{
-		init_prompt();
-		if (!(status = get_next_line(STDIN_FILENO, &line)))
-			break ;
-		helper(env, opt, build, line);
-		free(line);
-	}
-	free(line);
+	ft_bzero(&shell->opt, sizeof(t_opt));
+	ft_bzero(&shell->flag, sizeof(t_flags));
+	shell->build.version = BUILDV;
+	shell->build.patch = BUILDP + 1;
+	shell->build.date = DATE;
+	shell->env = NULL;
+	shell->logger = NULL;
 }
 
-int		main(int ac, char **av, char **environ)
+int			main(int ac, char **av, char **environ)
 {
-	t_build build;
-	t_opt	opt;
-	t_list	*env;
-	char *line = NULL; //For logging
+	t_core shell;
 
-	init_build(&build);
-	ft_bzero(&opt, sizeof(t_opt));
-	if (!(get_opt(ac, av, &opt)))
-		return (exit_status(&opt, FT, FL, LN));
-	if (!(env = set_env(environ)))
+	init_shell(&shell);
+	if (!(get_opt(ac, av, &shell)))
+		return (exit_status(&shell));
+	if (!(shell.env = set_env(environ)))
 	{
-		opt.fail = 1;
-		helper(env, &opt, &build, line);
-		return (exit_status(&opt, FT, FL, LN));
+		shell.flag.fail = 1;
+		helper(&shell, NULL, NULL);
+		return (exit_status(&shell));
 	}
-	helper(env, &opt, &build, line);
+	helper(&shell, NULL, NULL);
 	signal_handler();
-	if (!opt.v && !opt.h)
-		exec_prompt(env, &opt, &build);
-	free_list(env);
-	return (exit_status(&opt, FT, FL, LN));
+	if (!shell.opt.v && !shell.opt.h)
+		exec_prompt(&shell);
+	free_list(shell.env);
+	return (exit_status(&shell));
 }

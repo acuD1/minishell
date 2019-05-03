@@ -6,39 +6,50 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:36:24 by arsciand          #+#    #+#             */
-/*   Updated: 2019/04/13 09:28:55 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/03 13:04:02 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env(char **environ, int fd)
+char	**token_parser(char *line)
 {
-	int		i;
+	char **tokens;
 
-	i = 0;
-	ft_putendl_fd("DEBUF FOR ENV ->", fd);
-	if (!(environ[i]))
-		ft_mprintf(fd, "%sEMPTY%s\n", C_R, C_X);
-	while (environ[i])
-	{
-		ft_mprintf(fd, "%sENV[%s%d%s]%s%s\n",
-			C_Y, C_G, i, C_Y, C_X, environ[i]);
-		i++;
-	}
+	tokens = ft_strsplit(line, ' ');
+	return (tokens);
 }
 
-int		open_logger(t_opt *opt)
+void	exec_process(t_list *env, char **tokens)
 {
-	int		fd;
+	(void)env;
+	pid_t	pid;
+	char *path[2];
 
-	if ((fd = open(opt->logger,
-		O_WRONLY | O_APPEND | O_CREAT | O_NOFOLLOW, 0600)) == -1)
+	path[0] = "PATH";
+	path[1] = "/usr/bin";
+	pid = fork();
+	execve(tokens[0], tokens, path);
+}
+
+void	exec_prompt(t_core *shell)
+{
+	char	**tokens;
+	char	*line;
+	int		status;
+
+	status = 1;
+	credit(shell);
+	while (status)
 	{
-		opt->stop = 1;
-		ft_mprintf(1, "%sFailed open %s for debug !%s\n",
-			C_R, opt->logger, C_X);
-		return (0);
+		init_prompt();
+		if (!(status = get_next_line(STDIN_FILENO, &line)))
+			break ;
+		tokens = token_parser(line);
+		//exec_process(env, tokens);
+		helper(shell, line, tokens);
+		free_tokens(tokens);
+		free(line);
 	}
-	return (fd);
+	free(line);
 }

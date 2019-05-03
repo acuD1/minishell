@@ -52,7 +52,7 @@ BUILD_NUMBER_FILE = .build-number
 BUILD_DATE = $$(date +'%Y%m%d')
 BUILD_BRANCH = $$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3)
 BUILD_VERSION = $$(cat .version)
-BUILD_NUMBER = $$(cat $(BUILD_NUMBER_FILE))
+BUILD_PATCH = $$(cat $(BUILD_NUMBER_FILE))
 
 # Dir/Files Path
 
@@ -62,11 +62,10 @@ B_PATH = build/
 O_PATH = build/objs/
 L_PATH = libft/
 
-DB_PATH = build/objs/db/
 CR_PATH = build/objs/core/
 MS_PATH = build/objs/misc/
 
-PATHS = $(B_PATH) $(O_PATH) $(DB_PATH) $(CR_PATH) $(MS_PATH)
+PATHS = $(B_PATH) $(O_PATH) $(CR_PATH) $(MS_PATH)
 
 OBJP = "$(O_PATH){core,db,misc}*.o"
 
@@ -74,11 +73,11 @@ OBJP = "$(O_PATH){core,db,misc}*.o"
 
 SRC += $(S_PATH)core/minishell.c
 SRC += $(S_PATH)core/set_env.c
-SRC += $(S_PATH)core/free_list.c
+SRC += $(S_PATH)core/free.c
 SRC += $(S_PATH)core/get_opt.c
 SRC += $(S_PATH)core/signal_handler.c
 
-SRC += $(S_PATH)misc/build.c
+#SRC += $(S_PATH)misc/build.c
 SRC += $(S_PATH)misc/helper.c
 SRC += $(S_PATH)misc/exit_status.c
 SRC += $(S_PATH)misc/output.c
@@ -135,11 +134,11 @@ $(NAME): $(OBJ) $(BUILD_NUMBER_FILE)
 	@$(CMPLO) $(NAME) $(OBJ) $(LIB)
 	@$(GCSUC)
 	@echo "---\nCFLAG\t- =$(B_C)\t$(CFLAG)$(RESET_C)\n---"
-	@echo "\n$(G_C)[$(BUILD_BRANCH)] $(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE) is ready !"
-	@cp $(NAME) $(B_PATH)$(NAME)_$(BUILD_VERSION)_$(BUILD_NUMBER)_$(BUILD_DATE)
+	@echo "\n$(G_C)[$(BUILD_BRANCH)] $(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_PATCH)_$(BUILD_DATE) is ready !"
+	@cp $(NAME) $(B_PATH)$(NAME)_$(BUILD_VERSION)_$(BUILD_PATCH)_$(BUILD_DATE)
 
 $(OBJ): $(O_PATH)%.o: $(S_PATH)%.c $(HDR)
-	@$(CMPLC) -DBUILDV=$(BUILD_VERSION) -DBUILDN=$(BUILD_NUMBER) -DDATE=$(BUILD_DATE) $< -o $@
+	@$(CMPLC) -DBUILDV=$(BUILD_VERSION) -DBUILDP=$(BUILD_PATCH) -DDATE=$(BUILD_DATE) $< -o $@
 	@$(ECHO) $(GCFIL) $<
 
 $(BUILD_NUMBER_FILE): $(OBJ)
