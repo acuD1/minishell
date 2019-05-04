@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 14:45:59 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/04 10:12:14 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <signal.h>
+# include <sys/wait.h>
 
-# define DEFAULT_TTY "/dev/ttys002"
+# define DEFAULT_TTY "/dev/ttys004"
 # define DEFAULT_SHLVL "SHLVL=1"
 # define DEFAULT_ENV "_=/usr/bin/env"
 # define DEFAULT_PATH "PATH=/usr/bin"

@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:40:28 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 15:14:52 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/04 10:18:01 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	print_env_db(t_list *env, int fd)
 	int		i;
 
 	i = 0;
-	ft_putendl_fd("DEBUF FOR ENV_DB ->", fd);
+	ft_putendl_fd("DEBUG FOR ENV_DB ->", fd);
 	if (!(env))
 		ft_mprintf(fd, "%sEMPTY%s\n", C_R, C_X);
 	while (env)
@@ -65,7 +65,7 @@ void		helper(t_core *shell, char *line, char **tokens)
 		ft_mprintf(fd, "token[%d] = |%s|\n", i, tokens[i]);
 		i++;
 	}
-	ft_mprintf(fd, "\nLOGGER FOR MINISHELL (%d) V.%d_%d : %s",
-		shell->minishell_pid,
+	ft_mprintf(fd, "\nCHILD PID = %d\n\nLOGGER FOR MINISHELL (%d) V.%d_%d : %s",
+		shell->child_pid, shell->minishell_pid,
 		shell->build.version, shell->build.patch, asctime(timeinfo));
 }

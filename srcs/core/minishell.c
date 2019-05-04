@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 15:11:12 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/04 09:31:35 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int			main(int ac, char **av, char **environ)
 
 	init_shell(&shell);
 	if (!(get_opt(ac, av, &shell)) || !(shell.env = set_env(environ)))
-		return (exit_status(&shell, 1));
+		return (exit_status(&shell, EXIT_FAILURE));
 	print_opt(&shell);
 	signal_handler();
 	// LOGGER
@@ -39,5 +39,5 @@ int			main(int ac, char **av, char **environ)
 	// LOGGER
 	exec_prompt(&shell);
 	free_list(shell.env);
-	return (exit_status(&shell, 0));
+	return (exit_status(&shell, EXIT_SUCCESS));
 }
