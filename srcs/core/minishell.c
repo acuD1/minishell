@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/04 09:31:35 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/04 17:06:41 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static void	init_shell(t_core *shell)
 	shell->build.date = DATE;
 	shell->env = NULL;
 	shell->logger = NULL;
+	shell->bin_path = NULL;
 	shell->minishell_pid = getpid();
 	shell->child_pid = 0;
+	shell->exit = 0;
 }
 
 int			main(int ac, char **av, char **environ)
@@ -38,6 +40,6 @@ int			main(int ac, char **av, char **environ)
 	helper(&shell, NULL, NULL);
 	// LOGGER
 	exec_prompt(&shell);
-	free_list(shell.env);
+	free_core(&shell);
 	return (exit_status(&shell, EXIT_SUCCESS));
 }

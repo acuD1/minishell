@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/04 10:12:14 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/04 17:06:30 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@
 # include <errno.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <dirent.h>
 
-# define DEFAULT_TTY "/dev/ttys004"
+# define DEFAULT_TTY "/dev/ttys003"
 # define DEFAULT_SHLVL "SHLVL=1"
-# define DEFAULT_ENV "_=/usr/bin/env"
-# define DEFAULT_PATH "PATH=/usr/bin"
+# define DEFAULT_LA "_=/usr/bin/env"
 # define C_R "\x1b[31m"
 # define C_G "\x1b[32m"
 # define C_Y "\x1b[33m"
@@ -68,8 +70,10 @@ typedef struct		s_core
 	t_flags			flag;
 	t_list			*env;
 	char			*logger;
+	char			*bin_path;
 	int				minishell_pid;
-	int				child_pid;
+	pid_t			child_pid;
+	int				exit;
 }					t_core;
 
 /*
@@ -79,8 +83,8 @@ typedef struct		s_core
 t_list				*set_env(char **environ);
 int					get_opt(int ac, char **av, t_core *shell);
 void				signal_handler(void);
-void				free_list(t_list *env);
-void				free_tokens(char **tokens);
+void				free_core(t_core *shell);
+void				free_2dtab(char **tokens);
 
 /*
 **	Misc
