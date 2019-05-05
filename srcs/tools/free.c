@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:08:04 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 12:55:33 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/05 10:38:41 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_list(t_list *env)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	while (env)
 	{
@@ -27,15 +27,15 @@ void	free_list(t_list *env)
 	}
 }
 
-void	free_tokens(char **tokens)
+void	free_tab(char **tab)
 {
 	int	i;
 
 	i = 0;
-	while (tokens[i])
+	while (tab[i])
 	{
-		free(tokens[i]);
+		free(tab[i]);
 		i++;
 	}
-	free(tokens);
+	free(tab);
 }

@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 10:43:47 by arsciand         ###   ########.fr       */
+/*   Created: 2019/05/05 10:13:45 by arsciand          #+#    #+#             */
+/*   Updated: 2019/05/05 10:14:00 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			main(int ac, char **av, char **environ)
+void	init_shell(t_core *shell)
 {
-	t_core	shell;
-
-	init_shell(&shell);
-	if (!(get_opt(ac, av, &shell)) || !(shell.env = set_env(environ)))
-		return (exit_status(&shell, EXIT_FAILURE));
-	print_opt(&shell);
-	signal_handler();
-	// LOGGER
-	helper(&shell, NULL, NULL);
-	// LOGGER
-	exec_prompt(&shell);
-	free_list(shell.env);
-	return (exit_status(&shell, EXIT_SUCCESS));
+	ft_bzero(&shell->opt, sizeof(t_opt));
+	ft_bzero(&shell->flag, sizeof(t_flags));
+	shell->build.version = BUILDV;
+	shell->build.patch = BUILDP + 1;
+	shell->build.date = DATE;
+	shell->env = NULL;
+	shell->logger = NULL;
+	shell->bin_path = NULL;
+	shell->minishell_pid = getpid();
+	shell->child_pid = 0;
 }

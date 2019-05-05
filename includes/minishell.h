@@ -6,7 +6,11 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/05/03 13:13:45 by arsciand         ###   ########.fr       */
+=======
+/*   Updated: 2019/05/05 10:36:32 by arsciand         ###   ########.fr       */
+>>>>>>> dev
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +22,16 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <dirent.h>
 
-# define DEFAULT_TTY "/dev/ttys002"
+# define DEFAULT_TTY "/dev/ttys003"
 # define DEFAULT_SHLVL "SHLVL=1"
-# define DEFAULT_ENV "_=/usr/bin/env"
-# define DEFAULT_PATH "PATH=/usr/bin"
+# define DEFAULT_LA "_=/usr/bin/env"
 # define C_R "\x1b[31m"
 # define C_G "\x1b[32m"
 # define C_Y "\x1b[33m"
@@ -48,9 +57,9 @@ typedef struct		s_opt
 
 typedef struct		s_flags
 {
-	int				fail;
 	int				stop;
 	int				usage;
+	int				exit;
 }					t_flags;
 
 typedef struct		s_db
@@ -65,34 +74,51 @@ typedef struct		s_core
 	t_opt			opt;
 	t_flags			flag;
 	t_list			*env;
+	pid_t			child_pid;
 	char			*logger;
+	char			*bin_path;
+	int				minishell_pid;
 }					t_core;
 
 /*
 **	Core
 */
 
+void				signal_handler(void);
+void				exec_prompt(t_core *shell);
+int					exec_process(t_core *shell, char **tokens);
+int					exec_builtins(t_core *shell, char **tokens);
+
+/*
+** DB
+*/
+
+void				init_shell(t_core *shell);
 t_list				*set_env(char **environ);
 int					get_opt(int ac, char **av, t_core *shell);
-void				signal_handler(void);
-void				free_list(t_list *env);
-void				free_tokens(char **tokens);
+char				**get_envp(t_core *shell);
+void				get_path(t_core *shell, char *filename);
 
 /*
 **	Misc
 */
 
 void				helper(t_core *shell, char *line, char **tokens);
-int					exit_status(t_core *shell);
+int					exit_status(t_core *shell, int status);
 int					open_logger(t_core *shell);
 void				credit(t_core *shell);
 void				init_prompt(void);
+void				print_opt(t_core *shell);
+
+/*
+**	Tools
+*/
+
+void				free_tab(char **tokens);
+void				free_list(t_list *env);
 
 /*
 **	Dev
 */
-
-void				restart_prompt(int s);
-void				exec_prompt(t_core *shell);
 
 #endif

@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   get_envp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 10:43:47 by arsciand         ###   ########.fr       */
+/*   Created: 2019/05/05 10:27:03 by arsciand          #+#    #+#             */
+/*   Updated: 2019/05/05 10:47:41 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			main(int ac, char **av, char **environ)
+char		**get_envp(t_core *shell)
 {
-	t_core	shell;
+	t_list	*env;
+	char	**envp;
+	int		i;
 
-	init_shell(&shell);
-	if (!(get_opt(ac, av, &shell)) || !(shell.env = set_env(environ)))
-		return (exit_status(&shell, EXIT_FAILURE));
-	print_opt(&shell);
-	signal_handler();
-	// LOGGER
-	helper(&shell, NULL, NULL);
-	// LOGGER
-	exec_prompt(&shell);
-	free_list(shell.env);
-	return (exit_status(&shell, EXIT_SUCCESS));
+	i = 0;
+	env = shell->env;
+	if (!(envp = ft_memalloc(sizeof(envp) * ((ft_lstlen(env)) + 1))))
+		return (NULL);
+	while (env)
+	{
+		envp[i] = ft_strjoin_free(ft_strjoin(ENV_DB->symbol, "="),
+						ENV_DB->value, 1);
+		env = env->next;
+		i++;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
