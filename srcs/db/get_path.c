@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:28:00 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 10:51:44 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/05 15:53:55 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void		get_path(t_core *shell, char *filename)
 	char	*tmp;
 
 	env = shell->env;
-	if (!filename)
+	if (!filename || (filename[0] == '.' && !filename[1]))
 		return ;
-	if (filename[0] == '.' || filename[0] == '/')
+	if ((filename[0] == '.' || filename[0] == '/') && filename[1])
 	{
 		shell->bin_path = ft_strdup(filename);
 		return ;
@@ -61,8 +61,7 @@ void		get_path(t_core *shell, char *filename)
 		if (ft_strequ(ENV_DB->symbol, "PATH"))
 		{
 			path = ft_strsplit(ENV_DB->value, ':');
-			shell->bin_path = ft_strjoin_free(find_file(path, filename),
-									tmp, 3);
+			shell->bin_path = ft_strjoinf(find_file(path, filename), tmp, 3);
 			free_tab(path);
 			return ;
 		}

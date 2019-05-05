@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:16:16 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 10:32:09 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/05 14:51:14 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		exec_prompt(t_core *shell)
 		if (!(status = get_next_line(STDIN_FILENO, &line)))
 			break ;
 		tokens = token_parser(line);
-		if (!(exec_process(shell, tokens)))
+		if (!(exec_process(shell, tokens)) || shell->flag.exit)
 		{
 			free_tab(tokens);
 			free(line);

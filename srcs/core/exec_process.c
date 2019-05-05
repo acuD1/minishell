@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:20:02 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 10:47:17 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/05 15:42:56 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ int			exec_process(t_core *shell, char **tokens)
 	char	**envp;
 	int		status;
 
-	if (tokens[0] == NULL || !(exec_builtins(shell, tokens)))
+	if (tokens[0] == NULL)
 		return (0);
 	get_path(shell, tokens[0]);
+	if (exec_builtins(shell, tokens))
+		return (1);
 	envp = get_envp(shell);
 	if ((shell->child_pid = fork()) < 0)
 	{
@@ -57,7 +59,7 @@ int			exec_process(t_core *shell, char **tokens)
 	}
 	else
 		waitpid(shell->child_pid, &status, WUNTRACED);
-	free(shell->bin_path);
+	ft_strdel(&shell->bin_path);
 	free_tab(envp);
 	return (1);
 }

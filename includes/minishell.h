@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 10:36:32 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/05 15:50:18 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int					open_logger(t_core *shell);
 void				credit(t_core *shell);
 void				init_prompt(void);
 void				print_opt(t_core *shell);
+int					check_filename(char *filename);
 
 /*
 **	Tools
@@ -116,5 +117,7 @@ void				free_list(t_list *env);
 /*
 **	Dev
 */
+
+void				chdir_closedir(char *dir, DIR *content);
 
 #endif

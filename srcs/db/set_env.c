@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 10:48:06 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/05 15:58:10 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static t_list	*fetch_default(t_list *env, t_db *db, int i)
 	char	pwd[256];
 
 	if (getcwd(pwd, sizeof(pwd)) != NULL)
-		default_environ[0] = ft_strjoin_free(ft_strdup("PWD="),
-									ft_strdup(pwd), 3);
+		default_environ[0] = ft_strjoinf(ft_strdup("PWD="), ft_strdup(pwd), 3);
 	else
 		return (NULL);
 	default_environ[1] = DEFAULT_SHLVL;

@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 14:23:07 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 14:45:37 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/05 14:52:51 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,15 @@ void	print_opt(t_core *shell)
 			shell->build.version, shell->build.patch, shell->build.date);
 		exit(1);
 	}
+}
+
+int		check_filename(char *filename)
+{
+	if (filename[0] == '.' && !filename[1])
+	{
+		ft_mprintf(STDERR_FILENO, "minishell .: filename argument required\n");
+		ft_mprintf(STDERR_FILENO, ".: usage: . filename [arguments]\n");
+		return (1);
+	}
+	return (0);
 }
