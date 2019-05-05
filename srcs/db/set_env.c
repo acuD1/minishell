@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/04 12:06:15 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/05 10:48:06 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_db		*fetch_db(t_db *db, char *environ)
 {
-	size_t len;
+	size_t	len;
 
 	len = ft_strclen(environ, '=');
 	db->symbol = ft_strsub(environ, 0, len);
@@ -24,8 +24,8 @@ static t_db		*fetch_db(t_db *db, char *environ)
 
 static t_list	*fetch_default(t_list *env, t_db *db, int i)
 {
-	char *default_environ[4];
-	char pwd[256];
+	char	*default_environ[4];
+	char	pwd[256];
 
 	if (getcwd(pwd, sizeof(pwd)) != NULL)
 		default_environ[0] = ft_strjoin_free(ft_strdup("PWD="),
@@ -35,7 +35,7 @@ static t_list	*fetch_default(t_list *env, t_db *db, int i)
 	default_environ[1] = DEFAULT_SHLVL;
 	default_environ[2] = DEFAULT_LA;
 	default_environ[3] = NULL;
-	while(default_environ[i])
+	while (default_environ[i])
 	{
 		ft_lstpushback(&env,
 			ft_lstnew(fetch_db(db, default_environ[i]), sizeof(t_db)));

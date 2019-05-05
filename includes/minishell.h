@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/04 17:06:30 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/05 10:36:32 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct		s_flags
 {
 	int				stop;
 	int				usage;
+	int				exit;
 }					t_flags;
 
 typedef struct		s_db
@@ -69,22 +70,30 @@ typedef struct		s_core
 	t_opt			opt;
 	t_flags			flag;
 	t_list			*env;
+	pid_t			child_pid;
 	char			*logger;
 	char			*bin_path;
 	int				minishell_pid;
-	pid_t			child_pid;
-	int				exit;
 }					t_core;
 
 /*
 **	Core
 */
 
+void				signal_handler(void);
+void				exec_prompt(t_core *shell);
+int					exec_process(t_core *shell, char **tokens);
+int					exec_builtins(t_core *shell, char **tokens);
+
+/*
+** DB
+*/
+
+void				init_shell(t_core *shell);
 t_list				*set_env(char **environ);
 int					get_opt(int ac, char **av, t_core *shell);
-void				signal_handler(void);
-void				free_core(t_core *shell);
-void				free_2dtab(char **tokens);
+char				**get_envp(t_core *shell);
+void				get_path(t_core *shell, char *filename);
 
 /*
 **	Misc
@@ -98,10 +107,14 @@ void				init_prompt(void);
 void				print_opt(t_core *shell);
 
 /*
-**	Dev
+**	Tools
 */
 
-void				restart_prompt(int s);
-void				exec_prompt(t_core *shell);
+void				free_tab(char **tokens);
+void				free_list(t_list *env);
+
+/*
+**	Dev
+*/
 
 #endif

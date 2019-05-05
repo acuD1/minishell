@@ -63,24 +63,33 @@ O_PATH = build/objs/
 L_PATH = libft/
 
 CR_PATH = build/objs/core/
+DB_PATH = build/objs/db/
 MS_PATH = build/objs/misc/
+TS_PATH = build/objs/tools/
 
-PATHS = $(B_PATH) $(O_PATH) $(CR_PATH) $(MS_PATH)
+PATHS = $(B_PATH) $(O_PATH) $(CR_PATH) $(DB_PATH) $(MS_PATH) $(TS_PATH)
 
-OBJP = "$(O_PATH){core,db,misc}*.o"
+OBJP = "$(O_PATH){core,db,misc,tools}*.o"
 
 # Files
 
 SRC += $(S_PATH)core/minishell.c
-SRC += $(S_PATH)core/set_env.c
-SRC += $(S_PATH)core/free.c
-SRC += $(S_PATH)core/get_opt.c
 SRC += $(S_PATH)core/signal_handler.c
+SRC += $(S_PATH)core/exec_prompt.c
+SRC += $(S_PATH)core/exec_process.c
+SRC += $(S_PATH)core/exec_builtins.c
 
-#SRC += $(S_PATH)misc/build.c
+SRC += $(S_PATH)db/init.c
+SRC += $(S_PATH)db/set_env.c
+SRC += $(S_PATH)db/get_opt.c
+SRC += $(S_PATH)db/get_path.c
+SRC += $(S_PATH)db/get_envp.c
+
 SRC += $(S_PATH)misc/helper.c
 SRC += $(S_PATH)misc/exit_status.c
 SRC += $(S_PATH)misc/output.c
+
+SRC += $(S_PATH)tools/free.c
 
 SRC += $(S_PATH)dev.c
 
