@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 15:50:18 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/08 17:45:18 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,14 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <dirent.h>
+# include <limits.h>
 
-# define DEFAULT_TTY "/dev/ttys003"
+# define SUCCESS 0
+# define EXIT -1
+# define FAILURE -1
+# define FALSE 0
+# define TRUE 1
+# define DEFAULT_TTY "/dev/ttys002"
 # define DEFAULT_SHLVL "SHLVL=1"
 # define DEFAULT_LA "_=/usr/bin/env"
 # define C_R "\x1b[31m"
@@ -56,6 +62,7 @@ typedef struct		s_flags
 	int				stop;
 	int				usage;
 	int				exit;
+	int				no_path;
 }					t_flags;
 
 typedef struct		s_db
@@ -74,6 +81,7 @@ typedef struct		s_core
 	char			*logger;
 	char			*bin_path;
 	int				minishell_pid;
+	int8_t			status;
 }					t_core;
 
 /*
@@ -82,18 +90,18 @@ typedef struct		s_core
 
 void				signal_handler(void);
 void				exec_prompt(t_core *shell);
-int					exec_process(t_core *shell, char **tokens);
-int					exec_builtins(t_core *shell, char **tokens);
+void				exec_process(t_core *shell, char **tokens);
+int8_t				exec_builtins(t_core *shell, char **tokens);
 
 /*
 ** DB
 */
 
 void				init_shell(t_core *shell);
-t_list				*set_env(char **environ);
+int8_t				set_env(t_core *shell, char **environ);
 int					get_opt(int ac, char **av, t_core *shell);
 char				**get_envp(t_core *shell);
-void				get_path(t_core *shell, char *filename);
+int8_t				get_path(t_core *shell, char *filename);
 
 /*
 **	Misc

@@ -6,45 +6,45 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:16:16 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 14:51:14 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/08 17:44:24 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**token_parser(char *line)
+void		free_prompt(t_core *shell, char **tokens, char *line)
 {
-	char	**tokens;
-
-	tokens = ft_strsplit(line, ' ');
-	return (tokens);
+	ft_strdel(&shell->bin_path);
+	free_tab(tokens);
+	ft_strdel(&line);
 }
 
 void		exec_prompt(t_core *shell)
 {
 	char	**tokens;
 	char	*line;
-	int		status;
 
-	status = 1;
+	tokens = NULL;
+	line = NULL;
 	credit(shell);
-	while (status)
+	while (shell->status)
 	{
 		init_prompt();
-		if (!(status = get_next_line(STDIN_FILENO, &line)))
+		if (!(shell->status = get_next_line(STDIN_FILENO, &line)))
 			break ;
-		tokens = token_parser(line);
-		if (!(exec_process(shell, tokens)) || shell->flag.exit)
+		tokens = ft_strsplit(line, ' ');
+		if ((exec_builtins(shell, tokens)) == SUCCESS)
 		{
-			free_tab(tokens);
-			free(line);
-			return ;
+			free_prompt(shell, tokens, line);
+			if (shell->flag.exit)
+				return ;
+			continue ;
 		}
+		exec_process(shell, tokens);
 		// LOGGER
 		helper(shell, line, tokens);
 		// LOGGER
-		free_tab(tokens);
-		free(line);
+		free_prompt(shell, tokens, line);
 	}
-	free(line);
+	ft_strdel(&line);
 }

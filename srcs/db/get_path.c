@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:28:00 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 15:53:55 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/08 17:35:52 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,21 @@ static char	*find_file(char **path, char *filename)
 	return (NULL);
 }
 
-void		get_path(t_core *shell, char *filename)
+int8_t		get_path(t_core *shell, char *filename)
 {
 	t_list	*env;
 	char	**path;
 	char	*tmp;
 
+	path = NULL;
+	tmp = NULL;
 	env = shell->env;
-	if (!filename || (filename[0] == '.' && !filename[1]))
-		return ;
+	if (!filename || (filename[0] == '.' && !filename[1]) || ft_strequ("cd", filename))
+		return (FAILURE);
 	if ((filename[0] == '.' || filename[0] == '/') && filename[1])
 	{
 		shell->bin_path = ft_strdup(filename);
-		return ;
+		return (SUCCESS);
 	}
 	tmp = ft_strjoin("/", filename);
 	while (env)
@@ -63,8 +65,9 @@ void		get_path(t_core *shell, char *filename)
 			path = ft_strsplit(ENV_DB->value, ':');
 			shell->bin_path = ft_strjoinf(find_file(path, filename), tmp, 3);
 			free_tab(path);
-			return ;
+			return (SUCCESS) ;
 		}
 		env = env->next;
 	}
+	return (FAILURE);
 }

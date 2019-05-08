@@ -6,13 +6,13 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 15:46:59 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 14:44:21 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/08 16:54:59 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	usage(char *av, int i, t_core *shell)
+static int8_t	usage(char *av, int i, t_core *shell)
 {
 	while (av[i])
 	{
@@ -25,13 +25,13 @@ static int	usage(char *av, int i, t_core *shell)
 		i++;
 	}
 	shell->flag.usage = 1;
-	return (0);
+	return (FAILURE);
 }
 
 static int	fill_opt(t_core *shell, char av)
 {
 	if (!(ft_strchr("-hvd", av)))
-		return (0);
+		return (FAILURE);
 	if (av == 'v')
 	{
 		shell->opt.h = 0;
@@ -44,7 +44,7 @@ static int	fill_opt(t_core *shell, char av)
 	}
 	if (av == 'd')
 		shell->opt.d = 1;
-	return (1);
+	return (SUCCESS);
 }
 
 static void	get_logger(char **av, t_core *shell, int i)
@@ -76,12 +76,12 @@ int			get_opt(int ac, char **av, t_core *shell)
 		else if (av[i][0] == '-' && av[i][1])
 		{
 			while (av[i][j])
-				if (!(fill_opt(shell, av[i][j++])))
+				if (fill_opt(shell, av[i][j++]) == FAILURE)
 					return (usage(av[i], i, shell));
 		}
 		else
 			break ;
 	}
 	get_logger(av, shell, i);
-	return (1);
+	return (SUCCESS);
 }

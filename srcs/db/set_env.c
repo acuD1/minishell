@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 15:58:10 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/08 17:24:15 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,44 +22,48 @@ static t_db		*fetch_db(t_db *db, char *environ)
 	return (db);
 }
 
+/*
 static t_list	*fetch_default(t_list *env, t_db *db, int i)
 {
 	char	*default_environ[4];
-	char	pwd[256];
 
-	if (getcwd(pwd, sizeof(pwd)) != NULL)
-		default_environ[0] = ft_strjoinf(ft_strdup("PWD="), ft_strdup(pwd), 3);
-	else
-		return (NULL);
-	default_environ[1] = DEFAULT_SHLVL;
-	default_environ[2] = DEFAULT_LA;
-	default_environ[3] = NULL;
 	while (default_environ[i])
 	{
 		ft_lstpushback(&env,
 			ft_lstnew(fetch_db(db, default_environ[i]), sizeof(t_db)));
 		i++;
 	}
-	free(default_environ[0]);
 	return (env);
-}
+}*/
 
-t_list			*set_env(char **environ)
+int8_t		set_env(t_core *shell, char **environ)
 {
 	t_db	db;
-	t_list	*env;
+	char	*default_environ[4];
+	char	pwd[PATH_MAX];
 	int		i;
 
 	i = 0;
-	env = NULL;
+	*default_environ = NULL;
 	ft_bzero(&db, sizeof(t_db));
-	if (!(*environ))
-		return (fetch_default(env, &db, i));
+	if (*environ == NULL)
+	{
+		if (getcwd(pwd, sizeof(pwd)) != NULL)
+			default_environ[0] = ft_strjoin("PWD=", pwd);
+		else
+			return (FAILURE);
+		default_environ[1] = DEFAULT_SHLVL;
+		default_environ[2] = DEFAULT_LA;
+		default_environ[3] = NULL;
+		environ = default_environ;
+	}
 	while (environ[i])
 	{
-		ft_lstpushback(&env,
+		ft_lstpushback(&shell->env,
 			ft_lstnew(fetch_db(&db, environ[i]), sizeof(t_db)));
 		i++;
 	}
-	return (env);
+	if (shell->env == NULL)
+		return (FAILURE);
+	return (SUCCESS);
 }
