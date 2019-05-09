@@ -6,13 +6,14 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 15:46:59 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/03 14:44:21 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 15:18:48 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
 
-static int	usage(char *av, int i, t_core *shell)
+static int8_t	usage(char *av, int i)
 {
 	while (av[i])
 	{
@@ -24,64 +25,47 @@ static int	usage(char *av, int i, t_core *shell)
 		}
 		i++;
 	}
-	shell->flag.usage = 1;
-	return (0);
+	return (FAILURE);
 }
 
-static int	fill_opt(t_core *shell, char av)
+static int8_t	fill_opt(t_core *shell, char av)
 {
 	if (!(ft_strchr("-hvd", av)))
-		return (0);
+		return (FAILURE);
 	if (av == 'v')
-	{
-		shell->opt.h = 0;
-		shell->opt.v = 1;
-	}
-	if (av == 'h')
-	{
-		shell->opt.h = 1;
-		shell->opt.v = 0;
-	}
-	if (av == 'd')
-		shell->opt.d = 1;
-	return (1);
+		shell->opt |= OPT_VERS;
+	else if (av == 'h')
+		shell->opt |= OPT_HELP;
+	else if (av == 'd')
+		shell->opt |= OPT_DEBG;
+	return (SUCCESS);
 }
 
-static void	get_logger(char **av, t_core *shell, int i)
-{
-	if (!(av[i]))
-	{
-		shell->logger = ft_strdup(DEFAULT_TTY);
-		return ;
-	}
-	shell->logger = ft_strdup(av[i]);
-}
-
-int			get_opt(int ac, char **av, t_core *shell)
+int8_t			get_opt(int ac, char **av, t_core *shell)
 {
 	int		i;
-	int		j;
+	size_t	j;
 
 	i = 0;
 	while (++i < ac)
 	{
 		j = 0;
 		if (av[i][0] == '-' && av[i][1] == '-' && av[i][2])
-			return (usage(av[i], i, shell));
+			return (usage(av[i], i));
 		else if (av[i][0] == '-' && av[i][1] == '-')
 		{
 			i++;
 			break ;
 		}
-		else if (av[i][0] == '-' && av[i][1])
+		else if (av[i][0] == '-')
 		{
 			while (av[i][j])
-				if (!(fill_opt(shell, av[i][j++])))
-					return (usage(av[i], i, shell));
+				if (fill_opt(shell, av[i][j++]) == FAILURE)
+					return (usage(av[i], i));
 		}
 		else
 			break ;
 	}
-	get_logger(av, shell, i);
-	return (1);
+	open_logger_fd(shell, av[i]);
+	return (SUCCESS);
 }

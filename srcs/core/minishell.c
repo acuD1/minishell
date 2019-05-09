@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 10:43:47 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 11:01:01 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,11 @@ int			main(int ac, char **av, char **environ)
 	t_core	shell;
 
 	init_shell(&shell);
-	if (!(get_opt(ac, av, &shell)) || !(shell.env = set_env(environ)))
-		return (exit_status(&shell, EXIT_FAILURE));
+	if ((get_opt(ac, av, &shell) || set_env(&shell, environ)) != SUCCESS)
+		return (exit_handler(&shell, EXIT_FAILURE));
 	print_opt(&shell);
 	signal_handler();
-	// LOGGER
-	helper(&shell, NULL, NULL);
-	// LOGGER
+	logger(&shell, NULL, NULL);
 	exec_prompt(&shell);
-	free_list(shell.env);
-	return (exit_status(&shell, EXIT_SUCCESS));
+	return (exit_handler(&shell, EXIT_SUCCESS));
 }

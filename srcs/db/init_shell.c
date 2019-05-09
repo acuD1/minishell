@@ -1,41 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/11 14:08:04 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 10:38:41 by arsciand         ###   ########.fr       */
+/*   Created: 2019/05/05 10:13:45 by arsciand          #+#    #+#             */
+/*   Updated: 2019/05/09 15:14:38 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
+#include <sys/types.h>
 
-void	free_list(t_list *env)
+void	init_shell(t_core *shell)
 {
-	t_list	*tmp;
-
-	while (env)
-	{
-		free(ENV_DB->symbol);
-		free(ENV_DB->value);
-		free(env->content);
-		tmp = env;
-		env = env->next;
-		free(tmp);
-	}
-}
-
-void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
+	ft_bzero(&shell->opt, sizeof(shell->opt));
+	shell->build.version = BUILDV;
+	shell->build.patch = BUILDP + 1;
+	shell->build.date = DATE;
+	shell->logger_fd = -1;
+	shell->env = NULL;
+	shell->bin = NULL;
+	shell->minishell_pid = getpid();
+	shell->child_pid = 0;
+	shell->status = 1;
+	shell->exit = 0;
 }
