@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 15:18:35 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 15:37:49 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <limits.h>
 
-static t_db		*fetch_db(t_db *db, char *environ)
+static t_db		*fetch_db(t_db *db, const char *environ)
 {
 	size_t	len;
 

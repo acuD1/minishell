@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:49:40 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 14:57:53 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 15:35:43 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 typedef struct		s_build
 {
-	unsigned long	version;
-	unsigned long	patch;
-	unsigned long	date;
+	uint8_t			version;
+	uint8_t			patch;
+	uint32_t		date;
 }					t_build;
 
 typedef struct		s_db

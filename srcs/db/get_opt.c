@@ -6,14 +6,14 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 15:46:59 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 15:18:48 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 15:29:41 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-static int8_t	usage(char *av, int i)
+static int8_t	usage(const char *av, int i)
 {
 	while (av[i])
 	{
@@ -28,7 +28,7 @@ static int8_t	usage(char *av, int i)
 	return (FAILURE);
 }
 
-static int8_t	fill_opt(t_core *shell, char av)
+static int8_t	fill_opt(t_core *shell, const char av)
 {
 	if (!(ft_strchr("-hvd", av)))
 		return (FAILURE);
