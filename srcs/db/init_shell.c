@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:13:45 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/08 15:50:16 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 15:14:38 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
+#include <sys/types.h>
 
 void	init_shell(t_core *shell)
 {
-	ft_bzero(&shell->opt, sizeof(t_opt));
-	ft_bzero(&shell->flag, sizeof(t_flags));
+	ft_bzero(&shell->opt, sizeof(shell->opt));
 	shell->build.version = BUILDV;
 	shell->build.patch = BUILDP + 1;
 	shell->build.date = DATE;
+	shell->logger_fd = -1;
 	shell->env = NULL;
-	shell->logger = NULL;
-	shell->bin_path = NULL;
+	shell->bin = NULL;
 	shell->minishell_pid = getpid();
 	shell->child_pid = 0;
 	shell->status = 1;
+	shell->exit = 0;
 }

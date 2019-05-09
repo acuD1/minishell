@@ -6,27 +6,30 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/08 15:59:10 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 15:20:23 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
+#include <dirent.h>
 
-void	get_env_home(t_list *env)
+static void		get_env_home(t_list *env)
 {
 	while (env)
 	{
-		if (ft_strequ(ENV_DB->symbol, "HOME"))
-			chdir(ENV_DB->value);
+		if (ft_strequ(((t_db*)(env->content))->symbol, "HOME") == TRUE)
+			chdir(((t_db*)(env->content))->value);
 		env = env->next;
 	}
 }
 
-int		cd_builtin(t_core *shell, char **tokens)
+static int8_t	cd_builtin(t_core *shell, char **tokens)
 {
-	DIR		*content;
+	DIR	*content;
 
-	if (!tokens[1])
+	content = NULL;
+	if (tokens[1] == NULL)
 		get_env_home(shell->env);
 	else
 	{
@@ -36,20 +39,20 @@ int		cd_builtin(t_core *shell, char **tokens)
 				tokens[1]);
 			return (FAILURE);
 		}
-		chdir_closedir(tokens[1], content);
+		chdir(tokens[1]);
+		closedir(content);
 	}
-	printf ("SUCCES\n");
 	return (SUCCESS);
 }
 
-int8_t	exec_builtins(t_core *shell, char **tokens)
+int8_t			exec_builtins(t_core *shell, char **tokens)
 {
-	if (ft_strequ(tokens[0], "exit"))
+	if (ft_strequ(tokens[0], "exit") == TRUE)
 	{
-		shell->flag.exit = 1;
+		shell->exit = TRUE;
 		return (SUCCESS);
 	}
-	if (ft_strequ(tokens[0], "cd"))
+	if (ft_strequ(tokens[0], "cd") == TRUE)
 		return (cd_builtin(shell, tokens));
 	else
 		return (FAILURE);

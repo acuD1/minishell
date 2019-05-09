@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path.c                                         :+:      :+:    :+:   */
+/*   get_bin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:28:00 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/08 17:35:52 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 15:18:59 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
+#include <dirent.h>
 
-static char	*find_file(char **path, char *filename)
+static char	*find_file(char **path, const char *filename)
 {
 	DIR				*content;
 	struct dirent	*dir;
-	int				i;
+	size_t			i;
 
 	i = 0;
 	while (path[++i])
@@ -41,33 +43,27 @@ static char	*find_file(char **path, char *filename)
 	return (NULL);
 }
 
-int8_t		get_path(t_core *shell, char *filename)
+char		*get_bin(t_core *shell, const char *filename)
 {
 	t_list	*env;
 	char	**path;
-	char	*tmp;
 
 	path = NULL;
-	tmp = NULL;
 	env = shell->env;
-	if (!filename || (filename[0] == '.' && !filename[1]) || ft_strequ("cd", filename))
-		return (FAILURE);
+	if (!filename || (filename[0] == '.' && !filename[1]))
+		return (NULL);
 	if ((filename[0] == '.' || filename[0] == '/') && filename[1])
-	{
-		shell->bin_path = ft_strdup(filename);
-		return (SUCCESS);
-	}
-	tmp = ft_strjoin("/", filename);
+		return (shell->bin = ft_strdup(filename));
 	while (env)
 	{
-		if (ft_strequ(ENV_DB->symbol, "PATH"))
+		if (ft_strequ(((t_db*)(env->content))->symbol, "PATH") == TRUE)
 		{
-			path = ft_strsplit(ENV_DB->value, ':');
-			shell->bin_path = ft_strjoinf(find_file(path, filename), tmp, 3);
+			path = ft_strsplit(((t_db*)(env->content))->value, ':');
+			shell->bin = ft_strjoinf(find_file(path, filename),
+								ft_strjoin("/", filename), FREE_ALL);
 			free_tab(path);
-			return (SUCCESS) ;
 		}
 		env = env->next;
 	}
-	return (FAILURE);
+	return (shell->bin);
 }

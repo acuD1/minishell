@@ -42,7 +42,6 @@ C_C = \033[0;36m
 # Programms names
 
 NAME = minishell
-HNAME = minishell.h
 LNAME = libft.a
 #TNAME =
 
@@ -57,7 +56,8 @@ BUILD_PATCH = $$(cat $(BUILD_NUMBER_FILE))
 # Dir/Files Path
 
 S_PATH = srcs/
-H_PATH = includes/
+H_PATH += includes/
+H_PATH += libft/includes/
 B_PATH = build/
 O_PATH = build/objs/
 L_PATH = libft/
@@ -65,44 +65,48 @@ L_PATH = libft/
 CR_PATH = build/objs/core/
 DB_PATH = build/objs/db/
 MS_PATH = build/objs/misc/
-TS_PATH = build/objs/tools/
 
-PATHS = $(B_PATH) $(O_PATH) $(CR_PATH) $(DB_PATH) $(MS_PATH) $(TS_PATH)
+PATHS = $(B_PATH) $(O_PATH) $(CR_PATH) $(DB_PATH) $(MS_PATH)
 
-OBJP = "$(O_PATH){core,db,misc,tools}*.o"
+OBJP = "$(O_PATH){core,db,misc}*.o"
 
 # Files
 
 SRC += $(S_PATH)core/minishell.c
-SRC += $(S_PATH)core/signal_handler.c
 SRC += $(S_PATH)core/exec_prompt.c
 SRC += $(S_PATH)core/exec_process.c
 SRC += $(S_PATH)core/exec_builtins.c
+SRC += $(S_PATH)core/signal_handler.c
+SRC += $(S_PATH)core/exit_handler.c
+SRC += $(S_PATH)core/free_handler.c
 
-SRC += $(S_PATH)db/init.c
+SRC += $(S_PATH)db/init_shell.c
 SRC += $(S_PATH)db/set_env.c
 SRC += $(S_PATH)db/get_opt.c
-SRC += $(S_PATH)db/get_path.c
+SRC += $(S_PATH)db/get_bin.c
 SRC += $(S_PATH)db/get_envp.c
 
-SRC += $(S_PATH)misc/helper.c
-SRC += $(S_PATH)misc/exit_status.c
+SRC += $(S_PATH)misc/logger.c
 SRC += $(S_PATH)misc/output.c
-
-SRC += $(S_PATH)tools/free.c
 
 SRC += $(S_PATH)dev.c
 
 # Objects and Headers
 
+HDR += minishell.h
+HDR += define.h
+HDR += struct.h
+HDR += libft.h
+
 OBJ = $(patsubst $(S_PATH)%.c, $(O_PATH)%.o, $(SRC))
-HDR = $(H_PATH)$(HNAME)
 LIB = $(L_PATH)$(LNAME)
+vpath %.h $(H_PATH)
 
 # Variables
 
 C_GCC = gcc $(CFLAG)
-CMPLC = $(C_GCC) -c -I$(H_PATH)
+IFLAGS = $(addprefix -I, $(H_PATH))
+CMPLC = $(C_GCC) -c $(IFLAGS)
 CMPLO = $(C_GCC) -o
 BUILD = $(PATHS)
 AR_RC = ar rc

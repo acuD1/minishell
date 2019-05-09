@@ -6,18 +6,12 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:16:16 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/08 17:44:24 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 15:20:38 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void		free_prompt(t_core *shell, char **tokens, char *line)
-{
-	ft_strdel(&shell->bin_path);
-	free_tab(tokens);
-	ft_strdel(&line);
-}
+#include <unistd.h>
 
 void		exec_prompt(t_core *shell)
 {
@@ -36,14 +30,12 @@ void		exec_prompt(t_core *shell)
 		if ((exec_builtins(shell, tokens)) == SUCCESS)
 		{
 			free_prompt(shell, tokens, line);
-			if (shell->flag.exit)
+			if (shell->exit == TRUE)
 				return ;
 			continue ;
 		}
 		exec_process(shell, tokens);
-		// LOGGER
-		helper(shell, line, tokens);
-		// LOGGER
+		logger(shell, line, tokens);
 		free_prompt(shell, tokens, line);
 	}
 	ft_strdel(&line);

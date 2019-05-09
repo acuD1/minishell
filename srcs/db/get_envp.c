@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:27:03 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/05 15:58:50 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/09 11:06:06 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char		**get_envp(t_core *shell)
 {
 	t_list	*env;
 	char	**envp;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	env = shell->env;
@@ -24,8 +24,8 @@ char		**get_envp(t_core *shell)
 		return (NULL);
 	while (env)
 	{
-		envp[i] = ft_strjoinf(ft_strjoin(ENV_DB->symbol, "="),
-						ENV_DB->value, 1);
+		envp[i] = ft_strjoinf(ft_strjoin(((t_db*)(env->content))->symbol, "="),
+						((t_db*)(env->content))->value, 1);
 		env = env->next;
 		i++;
 	}
