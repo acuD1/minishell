@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 15:39:46 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/10 16:23:42 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void		get_env_home(t_list *env)
 	}
 }
 
-static int8_t	cd_builtin(t_core *shell, char **tokens)
+static void	cd_builtin(t_core *shell, char **tokens)
 {
 	DIR	*content;
 
@@ -33,16 +33,21 @@ static int8_t	cd_builtin(t_core *shell, char **tokens)
 		get_env_home(shell->env);
 	else
 	{
+		if (access(tokens[1], F_OK) == -1)
+		{
+			ft_mprintf(STDERR_FILENO,
+				"minishell: cd: %s: no such file or directory\n", tokens[1]);
+			return ;
+		}
 		if (!(content = opendir(tokens[1])))
 		{
-			ft_mprintf(STDERR_FILENO, "cd: permission denied: %s\n",
+			ft_mprintf(STDERR_FILENO, "minishell: cd: %s/: permission denied\n",
 				tokens[1]);
-			return (FAILURE);
+			return ;
 		}
 		chdir(tokens[1]);
 		closedir(content);
 	}
-	return (SUCCESS);
 }
 
 int8_t			exec_builtins(t_core *shell, char **tokens)
@@ -53,7 +58,9 @@ int8_t			exec_builtins(t_core *shell, char **tokens)
 		return (SUCCESS);
 	}
 	if (ft_strequ(tokens[0], "cd") == TRUE)
-		return (cd_builtin(shell, tokens));
-	else
-		return (FAILURE);
+	{
+		cd_builtin(shell, tokens);
+		return (SUCCESS);
+	}
+	return (FAILURE);
 }

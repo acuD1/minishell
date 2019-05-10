@@ -81,6 +81,7 @@ SRC += $(S_PATH)core/exit_handler.c
 SRC += $(S_PATH)core/free_handler.c
 
 SRC += $(S_PATH)db/init_shell.c
+SRC += $(S_PATH)db/get_tokens.c
 SRC += $(S_PATH)db/set_env.c
 SRC += $(S_PATH)db/get_opt.c
 SRC += $(S_PATH)db/get_bin.c
