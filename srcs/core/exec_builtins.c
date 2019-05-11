@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 15:43:06 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 18:28:35 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,32 @@ static void	cd_builtin(t_core *shell, char **tokens)
 	}
 }
 
+static void	echo_builtin(char **tokens)
+{
+	size_t	i;
+	uint8_t	no_newline;
+
+	i = 1;
+	no_newline = 0;
+	if (ft_strequ(tokens[i], "-n"))
+	{
+		i = 2;
+		no_newline = TRUE;
+	}
+	while (tokens[i])
+	{
+		ft_mprintf(STDOUT_FILENO, "%s", tokens[i]);
+		i++;
+		if (tokens[i])
+			write(STDOUT_FILENO, " ", 1);
+	}
+	if (no_newline == FALSE)
+		write(STDOUT_FILENO, "\n", 1);
+}
+
 int8_t		exec_builtins(t_core *shell, char **tokens)
 {
+	logger(shell, NULL, tokens);
 	if (ft_strequ(tokens[0], "exit") == TRUE)
 	{
 		shell->exit = TRUE;
@@ -60,6 +84,11 @@ int8_t		exec_builtins(t_core *shell, char **tokens)
 	if (ft_strequ(tokens[0], "cd") == TRUE)
 	{
 		cd_builtin(shell, tokens);
+		return (SUCCESS);
+	}
+	if (ft_strequ(tokens[0], "echo") == TRUE)
+	{
+		echo_builtin(tokens);
 		return (SUCCESS);
 	}
 	return (FAILURE);

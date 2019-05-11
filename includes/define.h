@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:15:19 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 12:56:58 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 17:35:00 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define FREE_1			1
 # define FREE_2			2
 # define FREE_ALL		3
-# define LOGGER_TTY		"/dev/ttys004"
+# define LOGGER_TTY		"/dev/ttys003"
 # define DEFAULT_SHLVL	"SHLVL=1"
 # define DEFAULT_LA		"_=/usr/bin/env"
 # define C_R			"\x1b[31m"
