@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/10 16:23:42 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 11:13:20 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ static void	cd_builtin(t_core *shell, char **tokens)
 		if (access(tokens[1], F_OK) == -1)
 		{
 			ft_mprintf(STDERR_FILENO,
-				"minishell: cd: %s: no such file or directory\n", tokens[1]);
+				"minishell: cd: %s: No such file or directory\n", tokens[1]);
 			return ;
 		}
 		if (!(content = opendir(tokens[1])))
 		{
-			ft_mprintf(STDERR_FILENO, "minishell: cd: %s/: permission denied\n",
+			ft_mprintf(STDERR_FILENO, "minishell: cd: %s: Permission denied\n",
 				tokens[1]);
 			return ;
 		}

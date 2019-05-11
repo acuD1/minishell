@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/10 15:16:38 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 11:06:18 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 void				signal_handler(void);
 void				exec_prompt(t_core *shell);
-void				exec_process(t_core *shell, char ***tokens);
+void				exec_process(t_core *shell, char **tokens);
 int8_t				exec_builtins(t_core *shell, char **tokens);
 int8_t				exit_handler(t_core *shell, int status);
 void				free_list(t_list *env);
