@@ -6,13 +6,13 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:27:03 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 11:06:06 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 11:21:36 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char		**get_envp(t_core *shell)
+char	**get_envp(t_core *shell)
 {
 	t_list	*env;
 	char	**envp;

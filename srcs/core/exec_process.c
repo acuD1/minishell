@@ -6,30 +6,52 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 11:11:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 11:06:10 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 16:31:17 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-static void	exec_handler(char **tokens, unsigned int handler)
+static void	exec_handler(char **tokens, uint8_t handler)
 {
-	if (handler & BIN_CHECK)
-	{
-		ft_mprintf(STDERR_FILENO, "minishell: command not found: %s\n",
+	if (handler & BIN_ERROR)
+		ft_mprintf(STDERR_FILENO, "minishell: %s: command not found\n",
 			tokens[0]);
-		return ;
-	}
-	if (handler & PID_CHECK)
+	if (handler & PERM_ERROR)
+		ft_mprintf(STDERR_FILENO, "minishell: %s: Permission denied\n",
+			tokens[0]);
+	if (handler & FORK_ERROR)
 		ft_mprintf(STDERR_FILENO, "%sFork failed !\n%s", C_R, C_X);
-	if (handler & PERM_CHECK)
-		ft_mprintf(STDERR_FILENO, "minishell: permission denied: %s\n",
-		tokens[0]);
-	if (handler & EXEC_CHECK)
-		ft_mprintf(STDERR_FILENO,
-			"%sExecve failed ! PATH may be incorrect\n%s", C_R, C_X);
-	exit(1);
+	if (handler & EXEC_ERROR)
+	{
+		ft_mprintf(STDERR_FILENO, "%sExecve failed !\n%s", C_R, C_X);
+		exit(1);
+	}
+}
+
+static char	*exp_var_handler(t_core *shell, char **tokens)
+{
+	t_list	*var;
+	char	*tmp;
+
+	var = shell->var;
+	if (!(tokens[0][0] == '$') || !(tokens[0][1]))
+		return (tokens[0]);
+	tmp = ft_strsub(tokens[0], 1, ft_strlen(tokens[0]));
+	while (var)
+	{
+		if (ft_strequ(((t_db*)(var->content))->symbol, tmp))
+		{
+			ft_strdel(&tmp);
+			ft_strdel(&tokens[0]);
+			tokens[0] = ft_strdup(((t_db*)(var->content))->value);
+			return (tokens[0]);
+		}
+		var = var->next;
+	}
+	ft_strdel(&tmp);
+	return (NULL);
 }
 
 void		exec_process(t_core *shell, char **tokens)
@@ -38,16 +60,21 @@ void		exec_process(t_core *shell, char **tokens)
 	int		status;
 
 	envp = NULL;
+	if (exp_var_handler(shell, &tokens[0]) == NULL)
+		return ;
 	shell->bin = get_bin(shell, tokens[0]);
 	if (shell->bin == NULL)
-		return (exec_handler(tokens, BIN_CHECK));
-	envp = get_envp(shell);
-	if ((shell->child_pid = fork()) < 0)
-		return (exec_handler(tokens, PID_CHECK));
+		return (exec_handler(tokens, BIN_ERROR));
 	if (access(shell->bin, X_OK) == FAILURE)
-		return (exec_handler(tokens, PERM_CHECK));
+		return (exec_handler(tokens, PERM_ERROR));
+	if ((shell->child_pid = fork()) < 0)
+		return (exec_handler(tokens, FORK_ERROR));
+	envp = get_envp(shell);
 	if (shell->child_pid == 0 && execve(shell->bin, tokens, envp) < 0)
-		return (exec_handler(tokens, EXEC_CHECK));
+	{
+		ft_free_tab(&envp);
+		return (exec_handler(tokens, EXEC_ERROR));
+	}
 	else
 		waitpid(shell->child_pid, &status, WUNTRACED);
 	ft_free_tab(&envp);

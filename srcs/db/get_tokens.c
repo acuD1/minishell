@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 09:46:42 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 11:09:45 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 15:41:05 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	tilde_converter(t_core *shell, char **tokens)
 	}
 }
 
-int8_t		get_tokens(t_core *shell, char *line, char ***tokens)
+int8_t	get_tokens(t_core *shell, char *line, char ***tokens)
 {
 	*tokens = ft_strsplit(line, " \t");
 	if (**tokens == NULL)

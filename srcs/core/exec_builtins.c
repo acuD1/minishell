@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 11:13:20 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 15:43:06 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <dirent.h>
 
-static void		get_env_home(t_list *env)
+static void	get_env_home(t_list *env)
 {
 	while (env)
 	{
@@ -50,7 +50,7 @@ static void	cd_builtin(t_core *shell, char **tokens)
 	}
 }
 
-int8_t			exec_builtins(t_core *shell, char **tokens)
+int8_t		exec_builtins(t_core *shell, char **tokens)
 {
 	if (ft_strequ(tokens[0], "exit") == TRUE)
 	{

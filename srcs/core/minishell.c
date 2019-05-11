@@ -6,13 +6,13 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/10 08:22:01 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 14:47:14 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			main(int ac, char **av, char **environ)
+int		main(int ac, char **av, char **environ)
 {
 	t_core	shell;
 

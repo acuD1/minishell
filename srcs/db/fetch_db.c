@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_shell.c                                       :+:      :+:    :+:   */
+/*   fetch_db.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/05 10:13:45 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 14:46:06 by arsciand         ###   ########.fr       */
+/*   Created: 2019/05/11 14:58:32 by arsciand          #+#    #+#             */
+/*   Updated: 2019/05/11 14:59:01 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <unistd.h>
-#include <sys/types.h>
 
-void	init_shell(t_core *shell)
+t_db	*fetch_db(t_db *env_db, const char *s)
 {
-	shell->build.version = BUILDV;
-	shell->build.patch = BUILDP + 1;
-	shell->build.date = DATE;
-	shell->db.symbol = NULL;
-	shell->db.value = NULL;
-	shell->logger_fd = -1;
-	shell->env = NULL;
-	shell->var = NULL;
-	shell->bin = NULL;
-	shell->minishell_pid = getpid();
-	shell->child_pid = 0;
-	shell->status = 1;
-	shell->exit = 0;
-	shell->opt = 0;
+	size_t	len;
+
+	len = ft_strclen(s, '=');
+	env_db->symbol = ft_strsub(s, 0, len);
+	env_db->value = ft_strdup(s + len + 1);
+	return (env_db);
 }

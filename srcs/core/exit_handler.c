@@ -6,16 +6,17 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 11:59:38 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/10 15:17:37 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/11 14:39:53 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-int8_t		exit_handler(t_core *shell, int status)
+int8_t	exit_handler(t_core *shell, int status)
 {
 	free_list(shell->env);
+	free_list(shell->var);
 	if (status)
 	{
 		if (shell->opt & OPT_DEBG && shell->logger_fd != -1)
