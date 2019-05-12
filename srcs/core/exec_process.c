@@ -6,18 +6,24 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 11:11:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 16:31:17 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/12 16:04:42 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-static void	exec_handler(char **tokens, uint8_t handler)
+static void	exec_handler(t_core *shell, char **tokens, uint8_t handler)
 {
 	if (handler & BIN_ERROR)
-		ft_mprintf(STDERR_FILENO, "minishell: %s: command not found\n",
-			tokens[0]);
+	{
+		if (shell->env_mode)
+			ft_mprintf(STDERR_FILENO, "env: %s: No such file or directory\n",
+				tokens[0]);
+		else
+			ft_mprintf(STDERR_FILENO, "minishell: %s: command not found\n",
+				tokens[0]);
+	}
 	if (handler & PERM_ERROR)
 		ft_mprintf(STDERR_FILENO, "minishell: %s: Permission denied\n",
 			tokens[0]);
@@ -64,16 +70,16 @@ void		exec_process(t_core *shell, char **tokens)
 		return ;
 	shell->bin = get_bin(shell, tokens[0]);
 	if (shell->bin == NULL)
-		return (exec_handler(tokens, BIN_ERROR));
+		return (exec_handler(shell, tokens, BIN_ERROR));
 	if (access(shell->bin, X_OK) == FAILURE)
-		return (exec_handler(tokens, PERM_ERROR));
+		return (exec_handler(shell, tokens, PERM_ERROR));
 	if ((shell->child_pid = fork()) < 0)
-		return (exec_handler(tokens, FORK_ERROR));
+		return (exec_handler(shell, tokens, FORK_ERROR));
 	envp = get_envp(shell);
 	if (shell->child_pid == 0 && execve(shell->bin, tokens, envp) < 0)
 	{
 		ft_free_tab(&envp);
-		return (exec_handler(tokens, EXEC_ERROR));
+		return (exec_handler(shell, tokens, EXEC_ERROR));
 	}
 	else
 		waitpid(shell->child_pid, &status, WUNTRACED);

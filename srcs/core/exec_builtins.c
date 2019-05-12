@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 18:28:35 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/12 16:01:38 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,95 @@ static void	echo_builtin(char **tokens)
 		write(STDOUT_FILENO, "\n", 1);
 }
 
+void		set_tmp_env(t_core *shell, char *tokens)
+{
+	t_db	tmp_env_db;
+
+	tmp_env_db = shell->db;
+	ft_lstpushback(&shell->tmp_env,
+		ft_lstnew(fetch_db(&tmp_env_db, tokens), sizeof(t_db)));
+}
+
+void	get_tmp_env(t_core *shell, char **tokens, size_t i)
+{
+	(void)shell;
+	if (tokens[i + 1] == NULL || ft_strchr(tokens[i], '=') == FALSE)
+		return ;
+}
+size_t	ft_tablen(char **tab)
+{
+	size_t	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+void	env_builtin(t_core *shell, char **tokens)
+{
+	t_list	*env;
+	char	**tmp;
+	size_t	i;
+
+	env = shell->env;
+	tmp = NULL;
+	i = ft_tablen(tokens);
+	if (tokens[1] && tokens[1][0] == '-' && ft_strequ(tokens[1], "-i") == FALSE)
+	{
+		ft_mprintf(STDERR_FILENO, "env: illegal option -- %c\n", tokens[1][1]);
+		ft_putendl_fd("usage: env [-i] [name=value ...] [utility [argument ...]]",
+			STDERR_FILENO);
+		return ;
+	}
+	if (ft_strequ(tokens[1], "-i") == TRUE && tokens[2] == NULL)
+		return ;
+	if (ft_strequ(tokens[1], "-i") == TRUE && tokens[2])
+	{
+		logger(shell, NULL, tokens);
+		/*while (tokens[i])
+		{
+			if (ft_strchr(tokens[i], '='))
+			{
+				if (tokens[i + 1] == NULL)
+				{
+					ft_mprintf(STDOUT_FILENO, "%s\n", tokens[i]);
+					return ;
+				}
+				tmp = ft_strdup(tokens[i + 1]);
+				printf("tmp = %s\n", tmp);
+				set_tmp_env(shell, tokens[i]);
+				ft_strdel(&tokens[i]);
+				tokens[i] = ft_strdup(tmp);
+				ft_strdel(&tmp);
+			}
+			i++;
+		}*/
+		logger(shell, NULL, tokens);
+		shell->default_env = 1;
+		exec_process(shell, tokens);
+		return ;
+	}
+	//////////////
+	if (tokens[1])
+	{
+		if (!(tmp = ft_memalloc(sizeof(tmp) * 2)))
+			return ;
+		tmp[0] = ft_strdup(tokens[i - 1]);
+		tmp[1] = NULL;
+		exec_process(shell, tmp);
+		ft_free_tab(&tmp);
+		return ;
+	}
+	//////////////
+	while (env)
+	{
+		ft_mprintf(STDOUT_FILENO, "%s=%s\n",
+			((t_db*)(env->content))->symbol, ((t_db*)(env->content))->value);
+		env = env->next;
+	}
+}
+
 int8_t		exec_builtins(t_core *shell, char **tokens)
 {
 	logger(shell, NULL, tokens);
@@ -89,6 +178,13 @@ int8_t		exec_builtins(t_core *shell, char **tokens)
 	if (ft_strequ(tokens[0], "echo") == TRUE)
 	{
 		echo_builtin(tokens);
+		return (SUCCESS);
+	}
+	if (ft_strequ(tokens[0], "env") == TRUE)
+	{
+		shell->env_mode = 1;
+		env_builtin(shell, tokens);
+		//logger(shell, NULL, tokens);
 		return (SUCCESS);
 	}
 	return (FAILURE);

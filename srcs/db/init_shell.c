@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:13:45 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 14:46:06 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/12 16:05:33 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_shell(t_core *shell)
 	shell->db.value = NULL;
 	shell->logger_fd = -1;
 	shell->env = NULL;
+	shell->tmp_env = NULL;
 	shell->var = NULL;
 	shell->bin = NULL;
 	shell->minishell_pid = getpid();
@@ -30,4 +31,6 @@ void	init_shell(t_core *shell)
 	shell->status = 1;
 	shell->exit = 0;
 	shell->opt = 0;
+	shell->default_env = 0;
+	shell->env_mode = 0;
 }

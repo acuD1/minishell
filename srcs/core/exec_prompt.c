@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:16:16 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 17:06:26 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/12 15:45:32 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ uint8_t	set_exp_var(t_core *shell, char **tokens)
 
 	i = 0;
 	var_db = shell->db;
+	if (ft_strequ(tokens[0], "env") == TRUE)
+		return (FALSE);
 	while (tokens[i])
 	{
 		if (ft_strchr(tokens[i], '='))

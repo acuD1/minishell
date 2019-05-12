@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 14:59:33 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/12 12:04:53 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void				free_prompt(t_core *shell, char ***tokens, char *line);
 
 void				init_shell(t_core *shell);
 t_db				*fetch_db(t_db *db, const char *s);
+int8_t				set_default_env(t_core *shell);
 int8_t				get_tokens(t_core *shell, char *line, char ***tokens);
 int8_t				set_env(t_core *shell, char **environ);
 int8_t				get_opt(int ac, char **av, t_core *shell);

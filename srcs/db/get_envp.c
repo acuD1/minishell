@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:27:03 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 11:21:36 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/12 12:06:12 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ char	**get_envp(t_core *shell)
 	size_t	i;
 
 	i = 0;
-	env = shell->env;
+	env = NULL;
+	if (shell->default_env == TRUE)
+		set_default_env(shell);
+	else
+		env = shell->env;
 	if (!(envp = ft_memalloc(sizeof(envp) * ((ft_lstlen(env)) + 1))))
 		return (NULL);
 	while (env)

@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 15:00:06 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/12 12:04:27 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <limits.h>
 
-static int8_t	set_default_env(t_core *shell)
+int8_t	set_default_env(t_core *shell)
 {
 	t_db	env_db;
 	char	*default_environ[4];
