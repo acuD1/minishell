@@ -65,10 +65,11 @@ L_PATH = libft/
 CR_PATH = build/objs/core/
 DB_PATH = build/objs/db/
 MS_PATH = build/objs/misc/
+BI_PATH = build/objs/builtins/
 
-PATHS = $(B_PATH) $(O_PATH) $(CR_PATH) $(DB_PATH) $(MS_PATH)
+PATHS = $(B_PATH) $(O_PATH) $(CR_PATH) $(DB_PATH) $(MS_PATH) $(BI_PATH)
 
-OBJP = "$(O_PATH){core,db,misc}*.o"
+OBJP = "$(O_PATH){core,builtins,db,misc}*.o"
 
 # Files
 
@@ -79,6 +80,10 @@ SRC += $(S_PATH)core/exec_builtins.c
 SRC += $(S_PATH)core/signal_handler.c
 SRC += $(S_PATH)core/exit_handler.c
 SRC += $(S_PATH)core/free_handler.c
+
+SRC += $(S_PATH)builtins/cd_builtin.c
+SRC += $(S_PATH)builtins/echo_builtin.c
+SRC += $(S_PATH)builtins/env_builtin.c
 
 SRC += $(S_PATH)db/init_shell.c
 SRC += $(S_PATH)db/fetch_db.c

@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:13:45 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/12 16:05:33 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/15 17:35:27 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-void	init_shell(t_core *shell)
+void	init_shell(t_core *shell, char **environ)
 {
 	shell->build.version = BUILDV;
 	shell->build.patch = BUILDP + 1;
 	shell->build.date = DATE;
 	shell->db.symbol = NULL;
 	shell->db.value = NULL;
+	shell->environ = environ;
 	shell->logger_fd = -1;
 	shell->env = NULL;
 	shell->tmp_env = NULL;

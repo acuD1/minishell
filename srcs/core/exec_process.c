@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 11:11:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/12 16:04:42 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/15 13:53:29 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*exp_var_handler(t_core *shell, char **tokens)
 	return (NULL);
 }
 
-void		exec_process(t_core *shell, char **tokens)
+void		exec_process(t_core *shell, t_list *env, char **tokens)
 {
 	char	**envp;
 	int		status;
@@ -68,14 +68,14 @@ void		exec_process(t_core *shell, char **tokens)
 	envp = NULL;
 	if (exp_var_handler(shell, &tokens[0]) == NULL)
 		return ;
-	shell->bin = get_bin(shell, tokens[0]);
+	shell->bin = get_bin(shell, env, tokens[0]);
 	if (shell->bin == NULL)
 		return (exec_handler(shell, tokens, BIN_ERROR));
 	if (access(shell->bin, X_OK) == FAILURE)
 		return (exec_handler(shell, tokens, PERM_ERROR));
 	if ((shell->child_pid = fork()) < 0)
 		return (exec_handler(shell, tokens, FORK_ERROR));
-	envp = get_envp(shell);
+	envp = get_envp(shell, env);
 	if (shell->child_pid == 0 && execve(shell->bin, tokens, envp) < 0)
 	{
 		ft_free_tab(&envp);

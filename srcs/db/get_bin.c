@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:28:00 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 15:53:27 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/15 14:00:20 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ static char	*find_file(char **path, const char *filename)
 	return (NULL);
 }
 
-char		*get_bin(t_core *shell, const char *filename)
+char		*get_bin(t_core *shell, t_list *env, const char *filename)
 {
-	t_list	*env;
 	char	**path;
 
 	path = NULL;
-	env = shell->env;
 	if (!filename || (filename[0] == '.' && !filename[1]))
 		return (NULL);
 	if ((filename[0] == '.' || filename[0] == '/') && filename[1])

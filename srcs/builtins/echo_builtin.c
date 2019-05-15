@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/06 12:43:49 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 17:37:55 by arsciand         ###   ########.fr       */
+/*   Created: 2019/05/15 10:53:15 by arsciand          #+#    #+#             */
+/*   Updated: 2019/05/15 10:53:45 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
 
-int		main(int ac, char **av, char **environ)
+void	echo_builtin(char **tokens)
 {
-	t_core	shell;
+	size_t	i;
+	uint8_t	no_newline;
 
-	init_shell(&shell, environ);
-	if ((get_opt(ac, av, &shell) || set_env(&shell, shell.environ)) != SUCCESS)
-		return (exit_handler(&shell, EXIT_FAILURE));
-	print_opt(&shell);
-	signal_handler();
-	logger(&shell, NULL, NULL);
-	exec_prompt(&shell);
-	return (exit_handler(&shell, EXIT_SUCCESS));
+	i = 1;
+	no_newline = 0;
+	if (ft_strequ(tokens[i], "-n"))
+	{
+		i = 2;
+		no_newline = TRUE;
+	}
+	while (tokens[i])
+	{
+		ft_mprintf(STDOUT_FILENO, "%s", tokens[i]);
+		i++;
+		if (tokens[i])
+			write(STDOUT_FILENO, " ", 1);
+	}
+	if (no_newline == FALSE)
+		write(STDOUT_FILENO, "\n", 1);
 }

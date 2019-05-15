@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:49:40 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/12 16:00:48 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/15 17:35:24 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct		s_core
 	t_list			*env;
 	t_list			*tmp_env;
 	t_list			*var;
+	char			**environ;
 	char			*bin;
 	pid_t			child_pid;
 	int32_t			logger_fd;

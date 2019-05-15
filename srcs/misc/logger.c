@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:40:28 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/11 15:34:31 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/15 15:48:03 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,27 @@ static void	print_env_db(t_core *shell)
 	i = 0;
 	env = shell->env;
 	ft_putendl_fd("DEBUG FOR ENV_DB ->", shell->logger_fd);
+	if (!(env))
+		ft_mprintf(shell->logger_fd, "%sEMPTY%s\n", C_R, C_X);
+	while (env)
+	{
+		ft_mprintf(shell->logger_fd,
+			"%sENV_DB[%s%d%s]\n%sS = |%s|\n%sV = |%s|%s\n",
+			C_Y, C_G, i, C_Y, C_M, ((t_db*)(env->content))->symbol, C_C,
+			((t_db*)(env->content))->value, C_X);
+		env = env->next;
+		i++;
+	}
+}
+
+static void	print_tmp_env_db(t_core *shell)
+{
+	t_list	*env;
+	size_t	i;
+
+	i = 0;
+	env = shell->tmp_env;
+	ft_putendl_fd("DEBUG FOR TMP_ENV_DB ->", shell->logger_fd);
 	if (!(env))
 		ft_mprintf(shell->logger_fd, "%sEMPTY%s\n", C_R, C_X);
 	while (env)
@@ -89,6 +110,7 @@ void		logger(t_core *shell, char *line, char **tokens)
 	timeinfo = localtime(&rawtime);
 	ft_mprintf(shell->logger_fd, "\n\n>\n%sLOGGING...%s\n", C_B, C_X);
 	print_env_db(shell);
+	print_tmp_env_db(shell);
 	ft_mprintf(shell->logger_fd, "\nline = |%s|\n\n", line);
 	while (tokens && tokens[i])
 	{
