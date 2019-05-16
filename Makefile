@@ -86,6 +86,7 @@ SRC += $(S_PATH)builtins/cd_builtin.c
 SRC += $(S_PATH)builtins/echo_builtin.c
 SRC += $(S_PATH)builtins/env_builtin.c
 SRC += $(S_PATH)builtins/env_builtin_tools.c
+SRC += $(S_PATH)builtins/unsetenv_builtin.c
 
 SRC += $(S_PATH)db/init_shell.c
 SRC += $(S_PATH)db/fetch_db.c
@@ -98,7 +99,7 @@ SRC += $(S_PATH)db/get_envp.c
 SRC += $(S_PATH)misc/logger.c
 SRC += $(S_PATH)misc/output.c
 
-SRC += $(S_PATH)dev.c
+#SRC += $(S_PATH)dev.c
 
 # Objects and Headers
 

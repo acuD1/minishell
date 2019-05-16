@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 11:06:18 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 14:05:25 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void				env_builtin(t_core *shell, char **tokens);
 void				env_builtin_usage(char **tokens);
 uint8_t				tokens_parser_checker(char *tokens);
 void				env_builtin_printer(t_core *shell, char **tokens);
+//t_list				*unsetenv_builtin(t_list *env, char **tokens);
+int8_t				unsetenv_builtin(t_list **env, char **tokens);
 
 /*
 ** DB
