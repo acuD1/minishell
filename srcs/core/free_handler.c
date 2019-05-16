@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:08:04 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 11:41:18 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 10:31:36 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,15 @@ void	free_list(t_list *env)
 	}
 }
 
-void	free_tab(char **tab)
+void	free_prompt(t_core *shell, char ***tokens, char *line)
 {
-	size_t	i;
-
-	i = 0;
-	while (tab[i])
+	if (shell->env_mode == TRUE)
 	{
-		ft_strdel(&tab[i]);
-		i++;
+		free_list(shell->tmp_env);
+		shell->tmp_env = NULL;
 	}
-	free(tab);
-}
-
-void	free_prompt(t_core *shell, char **tokens, char *line)
-{
+	shell->env_mode = 0;
 	ft_strdel(&shell->bin);
-	free_tab(tokens);
+	ft_free_tab(tokens);
 	ft_strdel(&line);
-}
-
-void	free_core(t_core *shell)
-{
-	free_list(shell->env);
 }

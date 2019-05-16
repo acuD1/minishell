@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   fetch_db.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/13 14:20:08 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 16:17:06 by arsciand         ###   ########.fr       */
+/*   Created: 2019/05/11 14:58:32 by arsciand          #+#    #+#             */
+/*   Updated: 2019/05/15 11:40:50 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <unistd.h>
 
-static void	restart_prompt(int sig)
+t_db	*fetch_db(t_db *env_db, const char *s)
 {
-	(void)sig;
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	init_prompt();
-}
+	size_t	len;
 
-void		signal_handler(void)
-{
-	signal(SIGINT, restart_prompt);
+	len = ft_strclen(s, '=');
+	env_db->symbol = ft_strsub(s, 0, len);
+	env_db->value = ft_strdup(s + len + 1);
+	return (env_db);
 }

@@ -6,14 +6,37 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:16:16 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 15:20:38 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 11:00:27 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-void		exec_prompt(t_core *shell)
+uint8_t	set_exp_var(t_core *shell, char **tokens)
+{
+	t_db	var_db;
+	size_t	i;
+
+	i = 0;
+	var_db = shell->db;
+	if (ft_strequ(tokens[0], "env") == TRUE)
+		return (FALSE);
+	while (tokens[i])
+	{
+		if (ft_strchr(tokens[i], '='))
+		{
+			ft_lstpushback(&shell->var,
+				ft_lstnew(fetch_db(&var_db, tokens[i]), sizeof(t_db)));
+			logger(shell, NULL, tokens);
+			return (TRUE);
+		}
+		i++;
+	}
+	return (FALSE);
+}
+
+void	exec_prompt(t_core *shell)
 {
 	char	**tokens;
 	char	*line;
@@ -26,17 +49,19 @@ void		exec_prompt(t_core *shell)
 		init_prompt();
 		if (!(shell->status = get_next_line(STDIN_FILENO, &line)))
 			break ;
-		tokens = ft_strsplit(line, ' ');
-		if ((exec_builtins(shell, tokens)) == SUCCESS)
+		if (get_tokens(shell, line, &tokens) != SUCCESS
+			|| set_exp_var(shell, tokens) == TRUE
+			|| exec_builtins(shell, tokens) == SUCCESS)
 		{
-			free_prompt(shell, tokens, line);
+			free_prompt(shell, &tokens, line);
+			logger(shell, NULL, NULL);
 			if (shell->exit == TRUE)
 				return ;
 			continue ;
 		}
-		exec_process(shell, tokens);
+		exec_process(shell, shell->env, tokens);
 		logger(shell, line, tokens);
-		free_prompt(shell, tokens, line);
+		free_prompt(shell, &tokens, line);
 	}
 	ft_strdel(&line);
 }

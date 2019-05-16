@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:15:19 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 14:42:23 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 09:19:21 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@
 # define FAILURE		-1
 # define FALSE			0
 # define TRUE			1
-# define BIN_CHECK		0x001
-# define PATH_CHECK		0x002
-# define PID_CHECK		0x004
-# define PERM_CHECK		0x008
-# define EXEC_CHECK		0x010
+# define BIN_ERROR		0x001
+# define PATH_ERROR		0x002
+# define FORK_ERROR		0x004
+# define PERM_ERROR		0x008
+# define EXEC_ERROR		0x010
 # define OPT_HELP		0x001
 # define OPT_DEBG		0x002
 # define OPT_VERS		0x004
 # define FREE_1			1
 # define FREE_2			2
 # define FREE_ALL		3
-# define LOGGER_TTY		"/dev/ttys003"
+# define LOGGER_TTY		"/dev/ttys004"
 # define DEFAULT_SHLVL	"SHLVL=1"
 # define DEFAULT_LA		"_=/usr/bin/env"
 # define C_R			"\x1b[31m"

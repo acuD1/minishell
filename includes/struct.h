@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:49:40 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 14:57:53 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 11:09:22 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 
 typedef struct		s_build
 {
-	unsigned long	version;
-	unsigned long	patch;
-	unsigned long	date;
+	uint8_t			release;
+	uint8_t			version;
+	uint16_t		patch;
+	uint32_t		date;
 }					t_build;
 
 typedef struct		s_db
@@ -32,7 +33,11 @@ typedef struct		s_db
 typedef struct		s_core
 {
 	t_build			build;
+	t_db			db;
 	t_list			*env;
+	t_list			*tmp_env;
+	t_list			*var;
+	char			**environ;
 	char			*bin;
 	pid_t			child_pid;
 	int32_t			logger_fd;
@@ -40,6 +45,8 @@ typedef struct		s_core
 	int8_t			status;
 	uint8_t			exit;
 	uint8_t			opt;
+	uint8_t			default_env;
+	u_int8_t		env_mode;
 }					t_core;
 
 #endif

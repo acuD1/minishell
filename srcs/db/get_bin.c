@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:28:00 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/09 15:18:59 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/15 14:00:20 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ static char	*find_file(char **path, const char *filename)
 	return (NULL);
 }
 
-char		*get_bin(t_core *shell, const char *filename)
+char		*get_bin(t_core *shell, t_list *env, const char *filename)
 {
-	t_list	*env;
 	char	**path;
 
 	path = NULL;
-	env = shell->env;
 	if (!filename || (filename[0] == '.' && !filename[1]))
 		return (NULL);
 	if ((filename[0] == '.' || filename[0] == '/') && filename[1])
@@ -58,10 +56,10 @@ char		*get_bin(t_core *shell, const char *filename)
 	{
 		if (ft_strequ(((t_db*)(env->content))->symbol, "PATH") == TRUE)
 		{
-			path = ft_strsplit(((t_db*)(env->content))->value, ':');
+			path = ft_strsplit(((t_db*)(env->content))->value, ":");
 			shell->bin = ft_strjoinf(find_file(path, filename),
 								ft_strjoin("/", filename), FREE_ALL);
-			free_tab(path);
+			ft_free_tab(&path);
 		}
 		env = env->next;
 	}
