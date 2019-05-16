@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 11:08:29 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 15:40:31 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,49 @@
 #include <unistd.h>
 #include <dirent.h>
 
-int8_t		exec_builtins(t_core *shell, char **tokens)
+void		builtins_parser(t_core *shell, char *tokens)
 {
+	if (ft_strequ(tokens, "exit") == TRUE)
+		shell->builtin |= EXIT_BUILTIN;
+	else if (ft_strequ(tokens, "cd") == TRUE)
+		shell->builtin |= CD_BUILTIN;
+	else if (ft_strequ(tokens, "echo") == TRUE)
+		shell->builtin |= ECHO_BUILTIN;
+	else if (ft_strequ(tokens, "env") == TRUE)
+		shell->builtin |= ENV_BUILTIN;
+	else if (ft_strequ(tokens, "unsetenv") == TRUE)
+		shell->builtin |= USETE_BUILTIN;
+	else if (ft_strequ(tokens, "setenv") == TRUE)
+		shell->builtin |= SETE_BUILTIN;
+	else
+		shell->builtin |= NO_BUILTIN;
+}
+
+int8_t				exec_builtins(t_core *shell, char **tokens)
+{
+	builtins_parser(shell, tokens[0]);
 	logger(shell, NULL, tokens);
-	if (ft_strequ(tokens[0], "exit") == TRUE)
-	{
+	if (shell->builtin & NO_BUILTIN)
+		return (FAILURE);
+	if (shell->builtin & EXIT_BUILTIN)
 		shell->exit = TRUE;
-		return (SUCCESS);
-	}
-	if (ft_strequ(tokens[0], "cd") == TRUE)
-	{
+	if (shell->builtin & CD_BUILTIN)
 		cd_builtin(shell, tokens);
-		return (SUCCESS);
-	}
-	if (ft_strequ(tokens[0], "echo") == TRUE)
-	{
+	if (shell->builtin & ECHO_BUILTIN)
 		echo_builtin(tokens);
-		return (SUCCESS);
-	}
-	if (ft_strequ(tokens[0], "env") == TRUE)
+	if (shell->builtin & USETE_BUILTIN
+		&& unsetenv_builtin(&shell->env, tokens) != SUCCESS)
+		ft_mprintf(STDERR_FILENO,
+			"unsetenv: %s: symbol not found in environement\n", tokens[1]);
+	if (shell->builtin & SETE_BUILTIN
+		&& setenv_builtin(shell, &shell->env, tokens) != SUCCESS)
+		ft_mprintf(STDERR_FILENO,
+			"setenv: %s: symbol already exist, set nonzero to ovewrite\n",
+			tokens[1]);
+	if (shell->builtin & ENV_BUILTIN)
 	{
 		shell->env_mode = 1;
 		env_builtin(shell, tokens);
-		return (SUCCESS);
 	}
-	return (FAILURE);
+	return (SUCCESS);
 }

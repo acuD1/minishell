@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:13:45 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 11:12:28 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 14:53:19 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_shell(t_core *shell, char **environ)
 	shell->status = 1;
 	shell->exit = 0;
 	shell->opt = 0;
+	shell->builtin = 0;
 	shell->default_env = 0;
 	shell->env_mode = 0;
 }
