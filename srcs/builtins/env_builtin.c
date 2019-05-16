@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 10:55:44 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 11:07:52 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 16:26:47 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	**set_tmp_tokens(char **tokens)
 		else
 			break ;
 	}
-	if (tokens[i] == NULL)
+	if (!(tokens[i]))
 	{
 		free(tmp_tokens);
 		return (NULL);
@@ -71,11 +71,9 @@ static char	**set_tmp_tokens(char **tokens)
 
 void		env_builtin(t_core *shell, char **tokens)
 {
-	t_list	*env;
 	char	**tmp_tokens;
 
 	tmp_tokens = NULL;
-	env = shell->env;
 	if (tokens[1] && tokens[1][0] == '-' && ft_strequ(tokens[1], "-i") == FALSE)
 		return (env_builtin_usage(tokens));
 	if (ft_strequ(tokens[1], "-i") == TRUE && tokens[2] == NULL)
