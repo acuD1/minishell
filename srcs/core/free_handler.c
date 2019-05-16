@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:08:04 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 10:31:36 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 14:57:02 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	free_prompt(t_core *shell, char ***tokens, char *line)
 		free_list(shell->tmp_env);
 		shell->tmp_env = NULL;
 	}
+	shell->builtin = 0;
 	shell->env_mode = 0;
 	ft_strdel(&shell->bin);
 	ft_free_tab(tokens);
