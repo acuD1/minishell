@@ -52,6 +52,7 @@ BUILD_DATE = $$(date +'%Y%m%d')
 BUILD_BRANCH = $$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3)
 BUILD_VERSION = $$(cat .version)
 BUILD_PATCH = $$(cat $(BUILD_NUMBER_FILE))
+BUILD_RELEASE = $$(cat .release)
 
 # Dir/Files Path
 
@@ -84,6 +85,7 @@ SRC += $(S_PATH)core/free_handler.c
 SRC += $(S_PATH)builtins/cd_builtin.c
 SRC += $(S_PATH)builtins/echo_builtin.c
 SRC += $(S_PATH)builtins/env_builtin.c
+SRC += $(S_PATH)builtins/env_builtin_tools.c
 
 SRC += $(S_PATH)db/init_shell.c
 SRC += $(S_PATH)db/fetch_db.c
@@ -154,11 +156,11 @@ $(NAME): $(OBJ) $(BUILD_NUMBER_FILE)
 	@$(CMPLO) $(NAME) $(OBJ) $(LIB)
 	@$(GCSUC)
 	@echo "---\nCFLAG\t- =$(B_C)\t$(CFLAG)$(RESET_C)\n---"
-	@echo "\n$(G_C)[$(BUILD_BRANCH)] $(RESET_C)$@ v.$(BUILD_VERSION)_$(BUILD_PATCH)_$(BUILD_DATE) is ready !"
-	@cp $(NAME) $(B_PATH)$(NAME)_$(BUILD_VERSION)_$(BUILD_PATCH)_$(BUILD_DATE)
+	@echo "\n$(G_C)[$(BUILD_BRANCH)] $(RESET_C)$@ v.$(BUILD_RELEASE)_$(BUILD_VERSION)_$(BUILD_PATCH)_$(BUILD_DATE) is ready !"
+	@cp $(NAME) $(B_PATH)$(NAME)_$(BUILD_RELEASE)_$(BUILD_VERSION)_$(BUILD_PATCH)_$(BUILD_DATE)
 
 $(OBJ): $(O_PATH)%.o: $(S_PATH)%.c $(HDR)
-	@$(CMPLC) -DBUILDV=$(BUILD_VERSION) -DBUILDP=$(BUILD_PATCH) -DDATE=$(BUILD_DATE) $< -o $@
+	@$(CMPLC) -DBUILDR=$(BUILD_RELEASE) -DBUILDV=$(BUILD_VERSION) -DBUILDP=$(BUILD_PATCH) -DDATE=$(BUILD_DATE) $< -o $@
 	@$(ECHO) $(GCFIL) $<
 
 $(BUILD_NUMBER_FILE): $(OBJ)

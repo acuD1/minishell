@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 10:52:12 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 10:53:06 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 11:08:10 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	get_env_home(t_list *env)
 	}
 }
 
-void	cd_builtin(t_core *shell, char **tokens)
+void		cd_builtin(t_core *shell, char **tokens)
 {
 	DIR	*content;
 

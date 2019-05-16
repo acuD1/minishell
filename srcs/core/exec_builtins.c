@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 17:37:28 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 11:08:29 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int8_t		exec_builtins(t_core *shell, char **tokens)
 	{
 		shell->env_mode = 1;
 		env_builtin(shell, tokens);
-		//logger(shell, NULL, tokens);
 		return (SUCCESS);
 	}
 	return (FAILURE);

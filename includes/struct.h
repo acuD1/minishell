@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:49:40 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 17:35:24 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 11:09:22 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 typedef struct		s_build
 {
+	uint8_t			release;
 	uint8_t			version;
 	uint16_t		patch;
 	uint32_t		date;

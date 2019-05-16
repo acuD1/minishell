@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:16:16 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 17:38:06 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 11:00:27 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	exec_prompt(t_core *shell)
 			|| exec_builtins(shell, tokens) == SUCCESS)
 		{
 			free_prompt(shell, &tokens, line);
-		//	logger(shell, NULL, NULL);
+			logger(shell, NULL, NULL);
 			if (shell->exit == TRUE)
 				return ;
 			continue ;

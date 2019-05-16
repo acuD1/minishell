@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 17:40:02 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/16 11:07:02 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int8_t	set_default_env(t_core *shell, t_list *env)
 	return (SUCCESS);
 }
 
-int8_t			set_env(t_core *shell, char **environ)
+int8_t	set_env(t_core *shell, char **environ)
 {
 	t_db	env_db;
 	t_list	*env;
