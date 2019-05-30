@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 15:40:31 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/30 11:48:45 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int8_t				exec_builtins(t_core *shell, char **tokens)
 	if (shell->builtin & SETE_BUILTIN
 		&& setenv_builtin(shell, &shell->env, tokens) != SUCCESS)
 		ft_mprintf(STDERR_FILENO,
-			"setenv: %s: symbol already exist, set nonzero to ovewrite\n",
+			"setenv: %s: symbol already exist, set nonzero to overwrite\n",
 			tokens[1]);
 	if (shell->builtin & ENV_BUILTIN)
 	{

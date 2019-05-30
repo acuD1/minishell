@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 11:11:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 13:53:29 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/05/30 11:35:13 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,14 @@ static void	exec_handler(t_core *shell, char **tokens, uint8_t handler)
 				tokens[0]);
 	}
 	if (handler & PERM_ERROR)
-		ft_mprintf(STDERR_FILENO, "minishell: %s: Permission denied\n",
-			tokens[0]);
+	{
+		if (access(tokens[0], F_OK) == -1)
+			ft_mprintf(STDERR_FILENO,
+				"minishell: %s: No such file or directory\n", tokens[0]);
+		else
+			ft_mprintf(STDERR_FILENO, "minishell: %s: Permission denied\n",
+				tokens[0]);
+	}
 	if (handler & FORK_ERROR)
 		ft_mprintf(STDERR_FILENO, "%sFork failed !\n%s", C_R, C_X);
 	if (handler & EXEC_ERROR)
