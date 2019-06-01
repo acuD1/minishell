@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:15:19 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/30 13:20:09 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/01 10:38:56 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,17 @@
 # define ENV_BUILTIN	0x010
 # define USETE_BUILTIN	0x020
 # define SETE_BUILTIN	0x040
+# define PWD_BUILTIN	0x080
 # define CD_ARG_ERROR	0x001
 # define CD_DIR_ERROR	0x002
 # define CD_PERM_ERROR	0x004
+# define CD_OLDPWD_NULL	0x008
+# define CD_HOME_NULL	0x010
+# define CD_USAGE		0x020
 # define FREE_1			1
 # define FREE_2			2
 # define FREE_ALL		3
-# define LOGGER_TTY		"/dev/ttys005"
+# define LOGGER_TTY		"/dev/ttys004"
 # define DEFAULT_SHLVL	"SHLVL=1"
 # define DEFAULT_LA		"_=/usr/bin/env"
 # define C_R			"\x1b[31m"

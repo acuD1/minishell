@@ -83,11 +83,13 @@ SRC += $(S_PATH)core/exit_handler.c
 SRC += $(S_PATH)core/free_handler.c
 
 SRC += $(S_PATH)builtins/cd_builtin.c
+SRC += $(S_PATH)builtins/cd_builtin_handler.c
 SRC += $(S_PATH)builtins/echo_builtin.c
 SRC += $(S_PATH)builtins/env_builtin.c
 SRC += $(S_PATH)builtins/env_builtin_tools.c
 SRC += $(S_PATH)builtins/unsetenv_builtin.c
 SRC += $(S_PATH)builtins/setenv_builtin.c
+SRC += $(S_PATH)builtins/pwd_builtin.c
 
 SRC += $(S_PATH)db/init_shell.c
 SRC += $(S_PATH)db/fetch_db.c

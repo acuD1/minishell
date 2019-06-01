@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:08:04 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 14:57:02 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/01 11:37:27 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	free_list(t_list *env)
 
 void	free_prompt(t_core *shell, char ***tokens, char *line)
 {
+	(void)line;
 	if (shell->env_mode == TRUE)
 	{
 		free_list(shell->tmp_env);

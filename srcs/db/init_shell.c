@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:13:45 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 14:53:19 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/01 10:17:01 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void	init_shell(t_core *shell, char **environ)
 {
+	ft_bzero(&shell->pwd, sizeof(t_pwd));
 	shell->build.release = BUILDR;
 	shell->build.version = BUILDV;
 	shell->build.patch = BUILDP + 1;
