@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:49:40 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/01 16:57:07 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/15 11:40:15 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct		s_core
 	pid_t			child_pid;
 	int32_t			logger_fd;
 	int32_t			minishell_pid;
+	int32_t			exit_value;
 	int8_t			status;
 	uint8_t			exit;
 	uint8_t			opt;

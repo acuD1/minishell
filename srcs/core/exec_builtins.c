@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/01 11:43:40 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/15 13:00:56 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int8_t		exec_builtins(t_core *shell, char **tokens)
 	if (shell->builtin & NO_BUILTIN)
 		return (FAILURE);
 	if (shell->builtin & EXIT_BUILTIN)
-		shell->exit = TRUE;
+		exit_builtin(shell, tokens);
 	if (shell->builtin & CD_BUILTIN)
 		cd_builtin(shell, tokens);
 	if (shell->builtin & ECHO_BUILTIN)
