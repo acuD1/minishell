@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/15 11:03:47 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/15 13:43:53 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int8_t				exec_builtins(t_core *shell, char **tokens);
 int8_t				exit_handler(t_core *shell, int status);
 void				free_list(t_list *env);
 void				free_prompt(t_core *shell, char ***tokens, char *line);
+void				builtins_parser(t_core *shell, char *tokens);
 
 /*
 **	Builtins

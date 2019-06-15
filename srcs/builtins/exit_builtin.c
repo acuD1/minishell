@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 11:00:33 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/15 12:56:52 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/15 15:53:13 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	exit_builtin(t_core *shell, char **tokens)
 		}
 		i++;
 	}
-	ft_putendl_fd("exit", STDOUT_FILENO);
 	if (tokens[1] != NULL)
 		shell->exit_value = ft_atoi(tokens[1]);
 }

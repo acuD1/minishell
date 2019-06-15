@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:16:16 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/15 12:54:46 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/15 13:49:46 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ uint8_t	set_exp_var(t_core *shell, char **tokens)
 	size_t	i;
 
 	i = 0;
-	if (ft_strequ(tokens[0], "env") == TRUE)
+	builtins_parser(shell, tokens[0]);
+	if (shell->builtin ^ NO_BUILTIN)
 		return (FALSE);
 	while (tokens[i])
 	{

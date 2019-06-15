@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:15:01 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/15 13:00:56 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/15 13:19:54 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <dirent.h>
 
-static void	builtins_parser(t_core *shell, char *tokens)
+void	builtins_parser(t_core *shell, char *tokens)
 {
 	if (ft_strequ(tokens, "exit") == TRUE)
 		shell->builtin |= EXIT_BUILTIN;

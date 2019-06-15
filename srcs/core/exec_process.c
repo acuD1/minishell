@@ -6,12 +6,13 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 11:11:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/30 11:35:13 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/15 15:51:24 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
+
 
 static void	exec_handler(t_core *shell, char **tokens, uint8_t handler)
 {
@@ -66,6 +67,12 @@ static char	*exp_var_handler(t_core *shell, char **tokens)
 	return (NULL);
 }
 
+static void waitpid_status_handler(int status)
+{
+	if (WIFSIGNALED(status))
+		printf("Segmentation fault: %d\n", WTERMSIG(status));
+}
+
 void		exec_process(t_core *shell, t_list *env, char **tokens)
 {
 	char	**envp;
@@ -88,6 +95,9 @@ void		exec_process(t_core *shell, t_list *env, char **tokens)
 		return (exec_handler(shell, tokens, EXEC_ERROR));
 	}
 	else
-		waitpid(shell->child_pid, &status, WUNTRACED);
+	{
+		waitpid(shell->child_pid, &status, WCONTINUED);
+		waitpid_status_handler(status);
+	}
 	ft_free_tab(&envp);
 }
