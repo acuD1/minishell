@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 14:49:40 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/15 11:40:15 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/26 14:06:32 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ typedef struct		s_core
 	uint8_t			opt;
 	uint8_t			builtin;
 	uint8_t			default_env;
-	u_int8_t		env_mode;
+	uint8_t			exp_found;
+	uint8_t			env_mode;
 }					t_core;
 
 #endif

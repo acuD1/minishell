@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 10:53:15 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 10:53:45 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/23 11:20:33 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	echo_builtin(char **tokens)
 	}
 	while (tokens[i])
 	{
+		if (ft_strlen(tokens[i]) == 0 && tokens[i + 1])
+			i++;
 		ft_mprintf(STDOUT_FILENO, "%s", tokens[i]);
 		i++;
 		if (tokens[i])
