@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 16:16:30 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 17:16:30 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,16 @@ int8_t				exec_builtins(t_core *shell, char **tokens);
 int8_t				exit_handler(t_core *shell, int status);
 void				free_list(t_list *env);
 void				free_prompt(t_core *shell, char ***tokens, char *line);
-
+void				builtins_parser(t_core *shell, char *tokens);
+int8_t				shift_exp_tokens(t_list *env,
+					t_list *var, char **tokens, char *tmp);
+int8_t				exp_shifter(t_core *shell, char **tokens);
 /*
 **	Builtins
 */
 
 void				cd_builtin(t_core *shell, char **tokens);
+void				cd_handler(char *tokens, uint8_t handler);
 void				echo_builtin(char **tokens);
 void				env_builtin(t_core *shell, char **tokens);
 void				env_builtin_usage(char **tokens);
@@ -43,6 +47,9 @@ uint8_t				tokens_parser_checker(char *tokens);
 void				env_builtin_printer(t_core *shell, char **tokens);
 int8_t				unsetenv_builtin(t_list **env, char **tokens);
 int8_t				setenv_builtin(t_core *shell, t_list **env, char **tokens);
+void				pwd_builtin(void);
+void				exit_builtin(t_core *shell, char **tokens);
+void				exec_handler(t_core *shell, char **tokens, uint8_t handler);
 
 /*
 ** DB

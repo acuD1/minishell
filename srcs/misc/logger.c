@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 14:40:28 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 11:13:07 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/15 13:00:12 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <time.h>
+
+/*
+**	Logger for minishell. Call this function wherever you need to have a trace
+**	on every usefull variables. Thoses logs can be display on a tty/fd
+**	set in define.h
+*/
 
 static void	print_env_db(t_core *shell)
 {

@@ -6,11 +6,13 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:28:00 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 14:00:20 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:02:54 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
 
@@ -45,10 +47,12 @@ static char	*find_file(char **path, const char *filename)
 
 char		*get_bin(t_core *shell, t_list *env, const char *filename)
 {
-	char	**path;
+	char		**path;
+	struct stat	stat;
 
 	path = NULL;
-	if (!filename || (filename[0] == '.' && !filename[1]))
+	if ((lstat(filename, &stat) == 0 && S_ISDIR(stat.st_mode))
+		|| !filename || (filename[0] == '.' && !filename[1]))
 		return (NULL);
 	if ((filename[0] == '.' || filename[0] == '/') && filename[1])
 		return (shell->bin = ft_strdup(filename));

@@ -6,67 +6,40 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 11:11:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/15 13:53:29 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 11:59:20 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
-static void	exec_handler(t_core *shell, char **tokens, uint8_t handler)
+static char	**exp_handler(t_core *shell, char **tokens)
 {
-	if (handler & BIN_ERROR)
+	if (!(tokens[0][0] == '$') || !(tokens[0][1]))
+		return (tokens);
+	if (exp_shifter(shell, tokens) == SUCCESS)
 	{
-		if (shell->env_mode)
-			ft_mprintf(STDERR_FILENO, "env: %s: No such file or directory\n",
-				tokens[0]);
-		else
-			ft_mprintf(STDERR_FILENO, "minishell: %s: command not found\n",
-				tokens[0]);
+		shell->exp = 1;
+		return (tokens);
 	}
-	if (handler & PERM_ERROR)
-		ft_mprintf(STDERR_FILENO, "minishell: %s: Permission denied\n",
-			tokens[0]);
-	if (handler & FORK_ERROR)
-		ft_mprintf(STDERR_FILENO, "%sFork failed !\n%s", C_R, C_X);
-	if (handler & EXEC_ERROR)
-	{
-		ft_mprintf(STDERR_FILENO, "%sExecve failed !\n%s", C_R, C_X);
-		exit(1);
-	}
+	return (NULL);
 }
 
-static char	*exp_var_handler(t_core *shell, char **tokens)
+static void	waitpid_status_handler(t_core *shell)
 {
-	t_list	*var;
-	char	*tmp;
-
-	var = shell->var;
-	if (!(tokens[0][0] == '$') || !(tokens[0][1]))
-		return (tokens[0]);
-	tmp = ft_strsub(tokens[0], 1, ft_strlen(tokens[0]));
-	while (var)
-	{
-		if (ft_strequ(((t_db*)(var->content))->symbol, tmp))
-		{
-			ft_strdel(&tmp);
-			ft_strdel(&tokens[0]);
-			tokens[0] = ft_strdup(((t_db*)(var->content))->value);
-			return (tokens[0]);
-		}
-		var = var->next;
-	}
-	ft_strdel(&tmp);
-	return (NULL);
+	if (WIFSIGNALED(shell->status))
+		ft_mprintf(STDERR_FILENO,
+			"Process killed by : SIG%d\n", WTERMSIG(shell->status));
 }
 
 void		exec_process(t_core *shell, t_list *env, char **tokens)
 {
 	char	**envp;
-	int		status;
 
 	envp = NULL;
-	if (exp_var_handler(shell, &tokens[0]) == NULL)
+	if (exp_handler(shell, tokens) == NULL)
 		return ;
 	shell->bin = get_bin(shell, env, tokens[0]);
 	if (shell->bin == NULL)
@@ -82,6 +55,9 @@ void		exec_process(t_core *shell, t_list *env, char **tokens)
 		return (exec_handler(shell, tokens, EXEC_ERROR));
 	}
 	else
-		waitpid(shell->child_pid, &status, WUNTRACED);
+	{
+		waitpid(shell->child_pid, &shell->status, WCONTINUED);
+		waitpid_status_handler(shell);
+	}
 	ft_free_tab(&envp);
 }

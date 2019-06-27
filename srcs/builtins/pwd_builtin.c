@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   pwd_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/13 14:20:08 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/15 15:32:35 by arsciand         ###   ########.fr       */
+/*   Created: 2019/06/01 10:30:27 by arsciand          #+#    #+#             */
+/*   Updated: 2019/06/27 13:58:45 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-static void	restart_prompt(int sig)
+void	pwd_builtin(void)
 {
-	(void)sig;
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	init_prompt();
-}
+	char	pwd[PATH_MAX];
 
-static void	do_nothing(int sig)
-{
-	(void)sig;
-	ft_mprintf(STDERR_FILENO, "\nSIGTSTP not supported\n");
-	init_prompt();
-}
-
-void		signal_handler(void)
-{
-	signal(SIGINT, restart_prompt);
-	signal(SIGTSTP, do_nothing);
+	if (!(getcwd(pwd, sizeof(pwd))))
+	{
+		ft_mprintf(STDERR_FILENO, "pwd: error retrieving current directory: ");
+		ft_mprintf(STDERR_FILENO, "getcwd: cannot access parent directories: ");
+		ft_mprintf(STDOUT_FILENO, "No such file or directory\n");
+	}
+	else
+		ft_mprintf(STDOUT_FILENO, "%s\n", getcwd(pwd, sizeof(pwd)));
 }

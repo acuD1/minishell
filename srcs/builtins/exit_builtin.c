@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo_builtin.c                                     :+:      :+:    :+:   */
+/*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/15 10:53:15 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/23 11:20:33 by arsciand         ###   ########.fr       */
+/*   Created: 2019/06/15 11:00:33 by arsciand          #+#    #+#             */
+/*   Updated: 2019/06/15 15:53:13 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-void	echo_builtin(char **tokens)
+void	exit_builtin(t_core *shell, char **tokens)
 {
 	size_t	i;
-	uint8_t	no_newline;
 
-	i = 1;
-	no_newline = 0;
-	if (ft_strequ(tokens[i], "-n"))
+	i = 0;
+	if (ft_tablen(tokens) > 2)
 	{
-		i = 2;
-		no_newline = TRUE;
+		ft_mprintf(STDERR_FILENO,
+			"exit\nminishell: exit: too many arguments\n");
+		return ;
 	}
-	while (tokens[i])
+	shell->exit = TRUE;
+	while (tokens[1] && tokens[1][i])
 	{
-		if (ft_strlen(tokens[i]) == 0 && tokens[i + 1])
-			i++;
-		ft_mprintf(STDOUT_FILENO, "%s", tokens[i]);
+		if (ft_isdigit(tokens[1][i]) == FALSE)
+		{
+			ft_mprintf(STDERR_FILENO,
+				"exit\nminishell: exit: numeric argument required\n");
+			return ;
+		}
 		i++;
-		if (tokens[i])
-			write(STDOUT_FILENO, " ", 1);
 	}
-	if (no_newline == FALSE)
-		write(STDOUT_FILENO, "\n", 1);
+	if (tokens[1] != NULL)
+		shell->exit_value = ft_atoi(tokens[1]);
 }
