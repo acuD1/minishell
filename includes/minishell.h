@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 09:18:13 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 10:32:49 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int8_t				unsetenv_builtin(t_list **env, char **tokens);
 int8_t				setenv_builtin(t_core *shell, t_list **env, char **tokens);
 void				pwd_builtin(void);
 void				exit_builtin(t_core *shell, char **tokens);
+void				exec_handler(t_core *shell, char **tokens, uint8_t handler);
 
 /*
 ** DB

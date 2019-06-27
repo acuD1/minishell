@@ -6,48 +6,24 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 11:11:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 09:19:59 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 10:32:04 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
-
-static void	exec_handler(t_core *shell, char **tokens, uint8_t handler)
-{
-	if (handler & BIN_ERROR)
-	{
-		if (shell->env_mode)
-			ft_mprintf(STDERR_FILENO, "env: %s: No such file or directory\n",
-				tokens[0]);
-		else
-			ft_mprintf(STDERR_FILENO, "minishell: %s: command not found\n",
-				tokens[0]);
-	}
-	if (handler & PERM_ERROR)
-	{
-		if (access(tokens[0], F_OK) == -1)
-			ft_mprintf(STDERR_FILENO,
-				"minishell: %s: No such file or directory\n", tokens[0]);
-		else
-			ft_mprintf(STDERR_FILENO, "minishell: %s: Permission denied\n",
-				tokens[0]);
-	}
-	if (handler & FORK_ERROR)
-		ft_mprintf(STDERR_FILENO, "%sFork failed !\n%s", C_R, C_X);
-	if (handler & EXEC_ERROR)
-	{
-		ft_mprintf(STDERR_FILENO, "%sExecve failed !\n%s", C_R, C_X);
-		exit(1);
-	}
-}
 
 static char	**exp_handler(t_core *shell, char **tokens)
 {
 	if (!(tokens[0][0] == '$') || !(tokens[0][1]))
 		return (tokens);
 	if (exp_shifter(shell, tokens) == SUCCESS)
+	{
+		shell->exp = 1;
 		return (tokens);
+	}
 	return (NULL);
 }
 

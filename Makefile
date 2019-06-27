@@ -82,6 +82,7 @@ SRC += $(S_PATH)core/signal_handler.c
 SRC += $(S_PATH)core/exit_handler.c
 SRC += $(S_PATH)core/free_handler.c
 SRC += $(S_PATH)core/exp_shifter.c
+SRC += $(S_PATH)core/exec_handler.c
 
 SRC += $(S_PATH)builtins/cd_builtin.c
 SRC += $(S_PATH)builtins/cd_builtin_handler.c
