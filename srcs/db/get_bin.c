@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:28:00 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 11:57:55 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:02:54 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <dirent.h>
 
-char	*find_file(char **path, const char *filename)
+static char	*find_file(char **path, const char *filename)
 {
 	DIR				*content;
 	struct dirent	*dir;

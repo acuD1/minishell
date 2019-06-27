@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 10:52:12 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/15 14:40:08 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:06:06 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	init_pwd(t_pwd *pwd, t_list *env)
 
 static void	update_env_pwd(t_core *shell, t_pwd *pwd)
 {
-	t_list		*env;
+	t_list	*env;
 
 	env = shell->env;
 	while (env)
@@ -71,6 +71,10 @@ static void	do_hyphen_cd(t_core *shell, t_pwd *pwd)
 {
 	char	tmp[PATH_MAX];
 
+	if (access(pwd->old, F_OK) == -1)
+		return (cd_handler(pwd->old, CD_DIR_ERROR));
+	if (access(pwd->old, R_OK) == -1)
+		return (cd_handler(pwd->old, CD_PERM_ERROR));
 	if (ft_strlen(pwd->old) < 1)
 		return (cd_handler(NULL, CD_OLDPWD_NULL));
 	chdir(pwd->old);
@@ -93,15 +97,15 @@ void		cd_builtin(t_core *shell, char **tokens)
 	if (tokens[1] == NULL)
 		return (do_home_cd(shell, &pwd));
 	if (tokens[2] != NULL)
-		return (cd_handler(tokens, CD_ARG_ERROR));
+		return (cd_handler(tokens[1], CD_ARG_ERROR));
 	if (ft_strequ(tokens[1], "-"))
 		return (do_hyphen_cd(shell, &pwd));
 	if (ft_strchr(tokens[1], '-') && tokens[1][1])
-		return (cd_handler(tokens, CD_USAGE));
-	if (access(tokens[1], F_OK) == -1)
-		return (cd_handler(tokens, CD_DIR_ERROR));
+		return (cd_handler(tokens[1], CD_USAGE));
+	if (!(getcwd(tmp, sizeof(tmp))) || access(tokens[1], F_OK) == -1)
+		return (cd_handler(tokens[1], CD_DIR_ERROR));
 	if (!(content = opendir(tokens[1])))
-		return (cd_handler(tokens, CD_PERM_ERROR));
+		return (cd_handler(tokens[1], CD_PERM_ERROR));
 	chdir(tokens[1]);
 	closedir(content);
 	ft_strcpy(pwd.old, pwd.current);

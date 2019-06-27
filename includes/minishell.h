@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 10:32:49 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 13:41:00 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int8_t				exp_shifter(t_core *shell, char **tokens);
 */
 
 void				cd_builtin(t_core *shell, char **tokens);
-void				cd_handler(char **tokens, uint8_t handler);
+void				cd_handler(char *tokens, uint8_t handler);
 void				echo_builtin(char **tokens);
 void				env_builtin(t_core *shell, char **tokens);
 void				env_builtin_usage(char **tokens);

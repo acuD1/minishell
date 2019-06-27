@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:16:16 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 11:21:57 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:05:50 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static uint8_t	set_exp_var(t_core *shell, char **tokens)
 		{
 			ft_lstpushback(&shell->var,
 				ft_lstnew(fetch_db(&shell->db, tokens[i]), sizeof(t_db)));
-			logger(shell, NULL, tokens);
 			return (TRUE);
 		}
 		i++;

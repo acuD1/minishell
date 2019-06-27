@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 10:55:44 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 11:07:52 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 15:12:26 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void		env_builtin(t_core *shell, char **tokens)
 	else
 		set_env(shell, shell->environ);
 	set_tmp_env(shell, tokens);
-	logger(shell, NULL, tokens);
 	tmp_tokens = set_tmp_tokens(tokens);
 	if (tmp_tokens == NULL)
 	{
