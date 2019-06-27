@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:16:16 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/22 11:46:26 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 09:17:43 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	exec_prompt(t_core *shell)
 				exit_handler(shell, shell->exit_value);
 			continue ;
 		}
-		ft_mprintf(STDOUT_FILENO, "EXEC PROCESS..\n");
 		exec_process(shell, shell->env, tokens);
 		//logger(shell, line, tokens);
 		free_prompt(shell, &tokens, line);

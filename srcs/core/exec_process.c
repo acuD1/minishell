@@ -6,61 +6,12 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 11:11:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/26 17:39:21 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 09:19:59 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
-
-/*
-** TEST
-*/
-
-static int8_t	shift_exp_tokens(t_list *env, t_list *var, char *tokens, char *tmp)
-{
-	while (var)
-	{
-		if (ft_strequ(((t_db*)(var->content))->symbol, tmp) == TRUE)
-		{
-			ft_strdel(&tmp);
-			ft_strdel(&tokens);
-			tokens = ft_strdup(((t_db*)(var->content))->value);
-			return (SUCCESS);
-		}
-		var = var->next;
-	}
-	while (env)
-	{
-		if (ft_strequ(((t_db*)(env->content))->symbol, tmp) == TRUE)
-		{
-			ft_strdel(&tmp);
-			ft_strdel(&tokens);
-			tokens = ft_strdup(((t_db*)(env->content))->value);
-			return (SUCCESS);
-		}
-		env = env->next;
-	}
-	ft_strdel(&tmp);
-	return (FAILURE);
-
-}
-
-static int8_t	exp_shifter(t_core *shell, char *tokens)
-{
-	t_list	*env;
-	t_list	*var;
-	char	*tmp;
-
-	env = shell->env;
-	var = shell->var;
-	tmp = ft_strsub(tokens, 1, ft_strlen(tokens));
-	return (shift_exp_tokens(env, var, tokens, tmp));
-}
-
-/*
-**
-*/
 
 static void	exec_handler(t_core *shell, char **tokens, uint8_t handler)
 {
@@ -91,50 +42,16 @@ static void	exec_handler(t_core *shell, char **tokens, uint8_t handler)
 	}
 }
 
-static char	*exp_handler(t_core *shell, char **tokens)
+static char	**exp_handler(t_core *shell, char **tokens)
 {
-/*	t_list	*var;
-	t_list	*env;
-	char	*tmp;
-
-	var = shell->var;
-	env = shell->env;*/
 	if (!(tokens[0][0] == '$') || !(tokens[0][1]))
-		return (tokens[0]);
-	ft_mprintf(STDOUT_FILENO, "?\n");
-	/*tmp = ft_strsub(tokens[0], 1, ft_strlen(tokens[0]));
-	while (var)
-	{
-		if (ft_strequ(((t_db*)(var->content))->symbol, tmp))
-		{
-			ft_strdel(&tmp);
-			ft_strdel(&tokens[0]);
-			tokens[0] = ft_strdup(((t_db*)(var->content))->value);
-			return (tokens[0]);
-		}
-		var = var->next;
-	}
-	while (env)
-	{
-		if (ft_strequ(((t_db*)(env->content))->symbol, tmp))
-		{
-			ft_strdel(&tmp);
-			ft_strdel(&tokens[0]);
-			tokens[0] = ft_strdup(((t_db*)(env->content))->value);
-			return (tokens[0]);
-		}
-		env = env->next;
-	}
-	ft_strdel(&tmp);*/
-	if (exp_shifter(shell, tokens[0]) == SUCCESS)
-	{
-		ft_mprintf(STDOUT_FILENO, "Alo?\n");
-		return (tokens[0]);
-	}
+		return (tokens);
+	if (exp_shifter(shell, tokens) == SUCCESS)
+		return (tokens);
 	return (NULL);
 }
 
-static void waitpid_status_handler(int status)
+static void	waitpid_status_handler(int status)
 {
 	if (WIFSIGNALED(status))
 		ft_mprintf(STDERR_FILENO,
@@ -147,9 +64,8 @@ void		exec_process(t_core *shell, t_list *env, char **tokens)
 	int		status;
 
 	envp = NULL;
-	if (exp_handler(shell, &tokens[0]) == NULL)
+	if (exp_handler(shell, tokens) == NULL)
 		return ;
-	ft_mprintf(STDOUT_FILENO, "tokens ? = |%s|\n", tokens[0]);
 	shell->bin = get_bin(shell, env, tokens[0]);
 	if (shell->bin == NULL)
 		return (exec_handler(shell, tokens, BIN_ERROR));
