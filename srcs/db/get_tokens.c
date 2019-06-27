@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 09:46:42 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 11:21:27 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 16:03:30 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ static void		tilde_converter(t_core *shell, char **tokens)
 	env = shell->env;
 	while (tokens[i])
 	{
-		if (ft_strequ(tokens[0], "~") == FALSE && tokens[i][0] == '~')
+		if (tokens[i][0] == '~' && (!tokens[i][1] || tokens[i][1] == '/'))
 		{
+			shell->exp = 1;
 			path = ft_strsub(tokens[i], 1, ft_strlen(tokens[i]));
 			ft_strdel(&tokens[i]);
 			while (env)
