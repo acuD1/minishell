@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:28:00 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 09:58:03 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 11:57:55 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <dirent.h>
 
-static char	*find_file(char **path, const char *filename)
+char	*find_file(char **path, const char *filename)
 {
 	DIR				*content;
 	struct dirent	*dir;
@@ -47,12 +47,11 @@ static char	*find_file(char **path, const char *filename)
 
 char		*get_bin(t_core *shell, t_list *env, const char *filename)
 {
-	char	**path;
-	struct stat stat;
+	char		**path;
+	struct stat	stat;
 
 	path = NULL;
-	lstat(filename, &stat);
-	if (S_ISDIR(stat.st_mode)
+	if ((lstat(filename, &stat) == 0 && S_ISDIR(stat.st_mode))
 		|| !filename || (filename[0] == '.' && !filename[1]))
 		return (NULL);
 	if ((filename[0] == '.' || filename[0] == '/') && filename[1])

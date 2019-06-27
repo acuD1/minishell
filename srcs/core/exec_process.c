@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/09 11:11:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 10:32:04 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 11:59:20 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,16 @@ static char	**exp_handler(t_core *shell, char **tokens)
 	return (NULL);
 }
 
-static void	waitpid_status_handler(int status)
+static void	waitpid_status_handler(t_core *shell)
 {
-	if (WIFSIGNALED(status))
+	if (WIFSIGNALED(shell->status))
 		ft_mprintf(STDERR_FILENO,
-			"Process killed by : SIG%d\n", WTERMSIG(status));
+			"Process killed by : SIG%d\n", WTERMSIG(shell->status));
 }
 
 void		exec_process(t_core *shell, t_list *env, char **tokens)
 {
 	char	**envp;
-	int		status;
 
 	envp = NULL;
 	if (exp_handler(shell, tokens) == NULL)
@@ -57,8 +56,8 @@ void		exec_process(t_core *shell, t_list *env, char **tokens)
 	}
 	else
 	{
-		waitpid(shell->child_pid, &status, WCONTINUED);
-		waitpid_status_handler(status);
+		waitpid(shell->child_pid, &shell->status, WCONTINUED);
+		waitpid_status_handler(shell);
 	}
 	ft_free_tab(&envp);
 }

@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 09:46:42 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 09:18:38 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/27 11:21:27 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,13 @@ static void		exp_converter(t_core *shell, char **tokens)
 	i = 1;
 	while (tokens[i])
 	{
-		if (tokens[i][0] == '$' && exp_shifter(shell, &tokens[i]) != SUCCESS)
+		if (ft_strequ(tokens[i], "$?") == TRUE)
+		{
+			ft_strdel(&tokens[i]);
+			tokens[i] = ft_itoa(shell->status / 256);
+		}
+		else if (tokens[i][0] == '$'
+				&& exp_shifter(shell, &tokens[i]) != SUCCESS)
 			ft_bzero(tokens[i], ft_strlen(tokens[i]));
 		i++;
 	}
