@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 09:46:42 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 16:03:30 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:14:12 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,18 @@ static void		exp_converter(t_core *shell, char **tokens)
 
 static void		tilde_converter(t_core *shell, char **tokens)
 {
-	t_list	*env;
 	char	*path;
 	size_t	i;
 
 	i = 0;
 	path = NULL;
-	env = shell->env;
 	while (tokens[i])
 	{
 		if (tokens[i][0] == '~' && (!tokens[i][1] || tokens[i][1] == '/'))
-		{
-			shell->exp = 1;
-			path = ft_strsub(tokens[i], 1, ft_strlen(tokens[i]));
-			ft_strdel(&tokens[i]);
-			while (env)
-			{
-				if (ft_strequ(((t_db*)(env->content))->symbol, "HOME") == TRUE)
-					tokens[i] = ft_strjoinf(((t_db*)(env->content))->value,
-									path, FREE_2);
-				env = env->next;
-			}
-		}
+			conv_home(shell, tokens, path, i);
+		else if (tokens[i][0] == '~' && (tokens[i][1] == '-'
+			|| tokens[i][1] == '+') && (!tokens[i][2] || tokens[i][2] == '/'))
+			conv_pwd(shell, tokens, path, i);
 		i++;
 	}
 }

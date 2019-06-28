@@ -101,6 +101,7 @@ SRC += $(S_PATH)db/set_env.c
 SRC += $(S_PATH)db/get_opt.c
 SRC += $(S_PATH)db/get_bin.c
 SRC += $(S_PATH)db/get_envp.c
+SRC += $(S_PATH)db/tilde_handler.c
 
 SRC += $(S_PATH)misc/logger.c
 SRC += $(S_PATH)misc/output.c

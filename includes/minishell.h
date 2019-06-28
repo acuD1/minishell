@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 12:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 17:16:30 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:15:02 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int8_t				set_env(t_core *shell, char **environ);
 int8_t				get_opt(int ac, char **av, t_core *shell);
 char				**get_envp(t_core *shell, t_list *env);
 char				*get_bin(t_core *shell, t_list *env, const char *filename);
+void				conv_home(t_core *shell, char **tokens, char *path, size_t i);
+void				conv_pwd(t_core *shell, char **tokens, char *path, size_t i);
 
 /*
 **	Misc
