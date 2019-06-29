@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/05 10:28:00 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 15:02:54 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/29 10:49:48 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,10 @@ static char	*find_file(char **path, const char *filename)
 	size_t			i;
 
 	i = 0;
-	while (path[++i])
+	while (path[i])
 	{
 		if (!(content = opendir(path[i])))
-		{
-			ft_mprintf(STDERR_FILENO, "%sFailed opendir(%s) !\n%s",
-				C_R, path[i], C_X);
 			continue;
-		}
 		while (content && (dir = readdir(content)))
 		{
 			if (ft_strequ(filename, dir->d_name))
@@ -41,6 +37,7 @@ static char	*find_file(char **path, const char *filename)
 			continue;
 		}
 		closedir(content);
+		i++;
 	}
 	return (NULL);
 }

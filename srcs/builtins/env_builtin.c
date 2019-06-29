@@ -6,12 +6,37 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 10:55:44 by arsciand          #+#    #+#             */
-/*   Updated: 2019/06/27 17:16:03 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/29 12:53:32 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
+
+uint8_t		check_tmp_env(t_core *shell, char *tokens)
+{
+	char	**tmp;
+	t_list	*tmp_env;
+
+	tmp = ft_strsplit(tokens, "=");
+	tmp_env = shell->tmp_env;
+	while (tmp_env)
+	{
+		if (ft_strequ(((t_db*)(tmp_env->content))->symbol, tmp[0]))
+		{
+			ft_strdel(&((t_db*)(tmp_env->content))->value);
+			if (tmp[1])
+				((t_db*)(tmp_env->content))->value = ft_strdup(tmp[1]);
+			else
+				((t_db*)(tmp_env->content))->value = ft_strdup("");
+			ft_free_tab(&tmp);
+			return (TRUE);
+		}
+		tmp_env = tmp_env->next;
+	}
+	ft_free_tab(&tmp);
+	return (FALSE);
+}
 
 static void	set_tmp_env(t_core *shell, char **tokens)
 {
@@ -23,8 +48,9 @@ static void	set_tmp_env(t_core *shell, char **tokens)
 	{
 		if (ft_strchr(tokens[i], '='))
 		{
-			ft_lstpushback(&shell->tmp_env,
-				ft_lstnew(fetch_db(&tmp_env_db, tokens[i]), sizeof(t_db)));
+			if (check_tmp_env(shell, tokens[i]) == FALSE)
+				ft_lstpushback(&shell->tmp_env,
+					ft_lstnew(fetch_db(&tmp_env_db, tokens[i]), sizeof(t_db)));
 		}
 		i++;
 	}

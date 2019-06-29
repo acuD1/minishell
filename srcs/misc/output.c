@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 14:23:07 by arsciand          #+#    #+#             */
-/*   Updated: 2019/05/16 11:17:44 by arsciand         ###   ########.fr       */
+/*   Updated: 2019/06/28 11:04:34 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	init_prompt(void)
 {
-	ft_mprintf(STDOUT_FILENO, "[?]>");
+	ft_mprintf(STDOUT_FILENO, "> %s$%s ", C_G, C_X);
 }
 
 void	credit(t_core *shell)
